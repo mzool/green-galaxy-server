@@ -1,6 +1,6 @@
 
 // Define a whitelist of trusted domains (origins)
-const whitelist = ['http://localhost:5173', 'http://localhost:3000'];
+const whitelist = ['https://green-galaxy.net', 'https://api.green-galaxy.net', 'www.green-galaxy.net', 'http://localhost:5173' ];
 
 // Configure CORS middleware with security settings
 export const corsOptions = {

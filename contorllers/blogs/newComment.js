@@ -5,6 +5,7 @@ async function AddNewComment(req, res) {
     try {
         const { username, email, body } = req.body;
         const {blog_id} = req.headers;
+        console.log(body);
         /// get the blog
         const theBlog = await Blog.findOne({ blog_id });
         /// check for the blog
