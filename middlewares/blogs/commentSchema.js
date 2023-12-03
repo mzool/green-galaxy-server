@@ -12,9 +12,9 @@ const newCommentSchema = {
         email: Joi.string()
             .email({ minDomainSegments: 2 })
             .required(),
-        body: Joi.string().regex(/^[a-zA-Z0-9_,; .]+$/).min(1).max(300).required()
+        body: Joi.string().regex(/^[a-zA-Z0-9_,; .]*$/).min(1).max(300).required()
     }),
-   
+
 }
 
 export default newCommentSchema

@@ -22,7 +22,7 @@ async function login(req, res) {
                     maxAge: 3 * 24 * 60 * 60 * 1000, // Cookie expiration time in milliseconds
                     httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
                     secure: true, // Only sends the cookie over HTTPS
-                    //sameSite: 'strict', // Protects against cross-site request forgery (CSRF) attacks
+                    sameSite: 'strict', // Protects against cross-site request forgery (CSRF) attacks
                 });
                 logger.info(`user with email: ${email} logged in successfully`) 
                 return res.status(200).json({message: "Logged in Successfully"})
