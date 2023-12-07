@@ -1,5 +1,5 @@
 function getCookie(cookie, target, searchForaText) {
-    let value = null;  
+    let value = null;
 
     if (searchForaText) {
         cookie.split(";").map((ck) => {
@@ -14,8 +14,8 @@ function getCookie(cookie, target, searchForaText) {
             }
         });
     }
-
-    return value;
+    if (!value || value == undefined) { return null }
+    else return value;
 }
 
 export default getCookie;
