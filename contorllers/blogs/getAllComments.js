@@ -13,7 +13,6 @@ async function getAllComments(req, res) {
         let verefiedComments = theBlogComments.comments.filter((comment) => {
             return comment.verified == true
         })
-        console.log("verified:", verefiedComments);
         return res.status(201).json({ success: true, message: `${theBlogComments.comments.length} commment found`, data: verefiedComments })
     } catch (err) {
         logger.error(err)

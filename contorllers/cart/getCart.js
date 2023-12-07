@@ -7,9 +7,8 @@ async function getCart(req, res) {
     try {
         /// get the cookies
         const { cookie } = req.headers;
-        /// check if user is logged in and if there is a cart for him
+        /// get cart id
         let cart_id = getCookie(cookie, "green_G_cart_", true);
-        let token = getCookie(cookie, "user");
         /// check if there is a cart cookie
         let theCart;
         if (cart_id) {
@@ -17,7 +16,8 @@ async function getCart(req, res) {
             theCart = await CartDB.findOne({ cart_id }).select(["-_id", "-createdAt", "-updatedAt", "-user_id", "-cart_id", "-__v"]).lean();
             /// if no cart in DB
             if (!theCart) {
-                return res.status(404).json({ error: "no cart found for you." })
+                res.clearCookie(cart_id);
+                return res.status(404).json({ success:false, error: "no cart found for you." })
             }
             /// get products in the card from products DB
             let allCartProducts = [];
@@ -47,28 +47,9 @@ async function getCart(req, res) {
             await fetchProductDetails();
 
             /// send response
-            return res.status(200).json({ success: true, message: "cart is here", cart:{allCartProducts, cart_id} });
-            // /// does cart has user_id?
-            // const userIdInTheCart = theCart.user_id;
-            // /// if no user return the cart
-            // if (!token && !userIdInTheCart) {
-            //     return res.status(200).json({ success: true, message: "cart is here", theCart });
-            // }
-            /// check if the user id in the cart is same with user id
-            /// first is there a user_id?
-            /// get the user 
-            // if (token) {
-            //     let theUser;
-            //     const publicKey = fs.readFileSync("publicKey.pem");
-            //     const payload = await verifyPasetoToken(token, publicKey);
-            //     if (payload) {
-            //         theUser = await user.findOne({ user_id: payload.user_id });
-            //         /// after check that user session is valid => check if there a cart token also
-            //     }
-
-            // }
+            return res.status(200).json({ success: true, message: "cart is here", cart: { allCartProducts, cart_id } });
         } else {
-            return res.status(404).json({ error: "cart not found" })
+            return res.status(404).json({ success: false, error: "cart not found" })
         }
 
     } catch (err) {

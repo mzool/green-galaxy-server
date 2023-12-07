@@ -5,14 +5,14 @@ const newCommentSchema = {
         username: Joi.string()
             .min(1)
             .max(30)
-            .regex(/^[a-zA-Z0-9_]+$/)
+            .regex(/^[a-zA-Z0-9_ ]+$/)
             .trim()
             .required(),
 
         email: Joi.string()
             .email({ minDomainSegments: 2 })
             .required(),
-        body: Joi.string().regex(/^[a-zA-Z0-9_,; .]*$/).min(1).max(300).required()
+        body: Joi.string().regex(/^[a-zA-Z0-9,;:_\-. ]+$/).min(1).max(300).required()
     }),
 
 }
