@@ -8,7 +8,8 @@ async function getCart(req, res) {
         /// get the cookies
         const { cookie } = req.headers;
         /// get cart id
-        let cart_id = getCookie(cookie, "green_G_cart_", true);
+        let cart_id;
+        if (cookie) { cart_id = getCookie(cookie, "green_G_cart_", true); }
         /// check if there is a cart cookie
         let theCart;
         if (cart_id) {
@@ -17,7 +18,7 @@ async function getCart(req, res) {
             /// if no cart in DB
             if (!theCart) {
                 res.clearCookie(cart_id);
-                return res.status(404).json({ success:false, error: "no cart found for you." })
+                return res.status(404).json({ success: false, error: "no cart found for you." })
             }
             /// get products in the card from products DB
             let allCartProducts = [];
