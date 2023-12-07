@@ -2,7 +2,7 @@
 // id length is equal to lenOfId +1
 // product ids start with pr_
 
-function idGenerator(lenOfId, product = false, cart = false, blog = false) {
+function idGenerator(lenOfId, product = false, cart = false, blog = false, order = false) {
     try {
         /// id
         let id = String(Math.floor(Math.random() * 10));
@@ -16,6 +16,9 @@ function idGenerator(lenOfId, product = false, cart = false, blog = false) {
             return "_cart_number_" + id
         } else if (blog == true) {
             return "blog_" + id
+        } else if (order == true) {
+            return "order_" + id
+
         } else { return id }
 
     } catch (err) {
@@ -27,3 +30,4 @@ function idGenerator(lenOfId, product = false, cart = false, blog = false) {
 
 
 export default idGenerator
+

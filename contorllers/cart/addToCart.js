@@ -32,7 +32,17 @@ async function AddToCart(req, res) {
         if (user_id) {
             let publicKey = fs.readFileSync("publicKey.pem");
             let UserId = await verifyPasetoToken(user_id, publicKey);
-            theUser = await user.findOne({ user_id: UserId.payload.user_id });
+            if (UserId) {
+                theUser = await user.findOne({ user_id: UserId.payload.user_id });
+                if (!theUser) {
+                    res.clearCookie(pastCart);
+                    res.clearCookie("user")
+                    return res.status(401).json({ error: "Unauthorized" })
+                }
+            } else {
+                return res.status(400).json({error:"Session expired, login again to save you cart or contiue as a guist"})
+            }
+
         }
         /// if past cart update else new one
         if (pastCart) {
@@ -95,7 +105,7 @@ async function AddToCart(req, res) {
             }
             /// item id
             let itemId = idGenerator(5);
-         
+
             /// save cart to data base
             let theUserCart = new CartDB({
                 cart_id,

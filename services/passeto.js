@@ -13,7 +13,7 @@ async function generatePasetoToken(payload, expireInHours) {
         const expiration = new Date();
         expiration.setHours(expiration.getHours() + expireInHours);
         // Sign the payload with PASETO
-        const token = sign({ payload, exp: expiration }, privateKey, { footer: 'null' });
+        const token = sign({ payload, exp: expiration }, privateKey, { footer: 'green-galaxy-v1' });
 
         return token;
     } catch (error) {

@@ -70,7 +70,7 @@ app.use(mainApi, checkAdminCookieRouter)
 app.use(mainApi, getAllProductsAdminRouter)
 app.use(mainApi, editProductRouter)
 /////////////////////////////////////////////////////////// blogs admin
-import blogRouter  from "./routes/admin/blogs/allBlogControllers.js"
+import blogRouter from "./routes/admin/blogs/allBlogControllers.js"
 app.use(mainApi, blogRouter)
 ////////////////////////////////////////////////////////////////////// blogs users
 import { getAllBlogsRouter, getOneBlogRouter, newCommentRouter, allCommentsRouter } from "./routes/blogs/allBlogs.js"
@@ -79,11 +79,19 @@ app.use(mainApi, getOneBlogRouter)
 app.use(mainApi, newCommentRouter)
 app.use(mainApi, allCommentsRouter)
 ///////////////////////////////////////////////////////// cart
-import {addToCartRouter, getCartRouter, DeleteCartItemRouter} from "./routes/cart/allCartRouters.js"
+import { addToCartRouter, getCartRouter, DeleteCartItemRouter, updateCartRouter } from "./routes/cart/allCartRouters.js"
 app.use(mainApi, addToCartRouter)
 app.use(mainApi, getCartRouter)
 app.use(mainApi, DeleteCartItemRouter)
+app.use(mainApi, updateCartRouter)
 
+///////////////////////////////////////////////// checkout routers
+import { getCheckoutPageRouter } from "./routes/checkout/allCheckoutRoutes.js";
+app.use(mainApi, getCheckoutPageRouter);
+
+/////////////////////////////////////////////////////////// orders routers
+import {newOrderRouter} from "./routes/orders/allOrdersRouters.js";
+app.use(mainApi, newOrderRouter)
 /// DB and start server 
 const url = process.env.url;
 const PORT = (process.env.port) || 6000
