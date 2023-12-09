@@ -31,6 +31,7 @@ async function newOrder(req, res) {
         res.clearCookie(`green_G_cart_${cart_id}`);
         /// delete cart from DB
         await CartDb.deleteOne({ cart_id });
+        /// send email with reciept to user 
         return res.status(200).json({ success: true, orderNumber: order_id, message: `Thank you for trust Green Galaxy, you can track your order using this order number ${order_id}` })
 
     } catch (err) {
