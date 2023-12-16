@@ -2,11 +2,10 @@ import logger from "../../services/winston_logger.js";
 
 async function logout(req, res) {
     try {
-
-        res.clearCookie("user");
-        res.clearCookie("user_session");
-        res.clearCookie("permesions")
-
+        const cookies = req.cookies;
+        for (const cookieName in cookies) {
+            res.clearCookie(cookieName);
+        }
         return res.status(200).json({ message: "Logged out successfully" });
     } catch (err) {
 

@@ -59,7 +59,17 @@ const productSchema = new mongoose.Schema({
     }]
 
 }, { timestamps: true });
-
+// search 
+productSchema.index({
+    productName:"text",
+    productDescription:"text",
+    productBrand:"text",
+    colors:"text",
+    sizes:"text",
+    otherVarients:"text",
+    productCategory:"text",
+    productPrice:"text"
+})
 const product = mongoose.model('product', productSchema);
 
 export default product

@@ -6,7 +6,9 @@ import compression from "compression"
 import shouldCompress from "./services/compress.js"
 import morgan from "morgan"
 /// creating the server 
-const app = express()
+const app = express();
+//// get user ip address
+// app.set("trust proxy", 1);
 /// security
 ////////////////////////////////////////////////// helmet for security
 import { helmetOptions, directives } from "./services/helmet.js"
@@ -19,10 +21,10 @@ app.use(compression(shouldCompress))
 import { corsOptions } from "./services/cors.js";
 app.use(cors(corsOptions));
 //////////////////////////////////////////////////// just 200 requests in 10 miniutes
-//app.use(limiter)
+app.use(limiter)
 ////////////////////////////////////////////////// body parser
 app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "10mb", parameterLimit: 10000, extended: true }))
+app.use(express.urlencoded({ limit: "10mb", parameterLimit: 50000, extended: true }))
 ////////////////////////////////////////////////// cookie parser
 import cookieParser from "cookie-parser"
 app.use(cookieParser())
@@ -54,6 +56,9 @@ app.use(mainApi, getUserRouter)
 //////////////////////////////////////////////////////////////// subscribe 
 import subscriberRouter from "./routes/subscribers/subscribers.route.js"
 app.use(mainApi, subscriberRouter);
+//////////////////////////////////////////////// update profile image router
+import updateImageRouter from "./routes/user routes/changeProfileImage.js"
+app.use(mainApi, updateImageRouter)
 //////////////////////////////////////////////////////////////////////// products routes
 import { addProductRouter, allProducts, filterRouter, onePrRouter, excelRouter } from "./routes/products/allProductsRoutes.js"
 app.use(mainApi, addProductRouter)
@@ -90,9 +95,25 @@ import { getCheckoutPageRouter } from "./routes/checkout/allCheckoutRoutes.js";
 app.use(mainApi, getCheckoutPageRouter);
 
 /////////////////////////////////////////////////////////// orders routers
-import {newOrderRouter} from "./routes/orders/allOrdersRouters.js";
+import { newOrderRouter } from "./routes/orders/allOrdersRouters.js";
 app.use(mainApi, newOrderRouter)
-/// DB and start server 
+
+/////////////////////////// search router
+import searchRouter from "./routes/search/searchRouter.js"
+app.use(mainApi, searchRouter);
+
+//////////////////////////////////////////////////////////// track order routers
+import trackOrderRouter from "./routes/trackorder/trackOrderRouter.js"
+app.use(mainApi, trackOrderRouter);
+
+/////////////////////////////////////////////// chat with us app
+import chatWithUsRouter from "./routes/chat Router/chatRouter.js"
+app.use(mainApi, chatWithUsRouter)
+
+/////////////////////////////////////////////////////////// get user location
+import locationRouter from "./routes/getLocationRouter/getLocationRoute.js"
+app.use(mainApi, locationRouter)
+//////////////////////////////////////// DB and start server 
 const url = process.env.url;
 const PORT = (process.env.port) || 6000
 import DB from "./model/db_functions.js"

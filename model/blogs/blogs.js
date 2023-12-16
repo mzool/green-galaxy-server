@@ -18,7 +18,7 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true
     }],
-    blog_id:{
+    blog_id: {
         type: String,
         required: true
     },
@@ -42,6 +42,10 @@ const blogSchema = new mongoose.Schema({
 
     }]
 }, { timestamps: true })
-
+//// make blog search
+blogSchema.index({
+    body: "text",
+    titile: "text",
+})
 const Blog = mongoose.model("Blog", blogSchema);
 export default Blog

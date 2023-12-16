@@ -25,7 +25,8 @@ async function getUser(req, res) {
         email: theUser.email,
         confirm_email: theUser.confirmEmail,
         permesions: theUser.isAdmin,
-        phone: theUser.phone
+        phone: theUser.phone,
+        profileImage: theUser.profileImage
        })
     } catch (err) {
         logger.info(`error:${err.message} `);
