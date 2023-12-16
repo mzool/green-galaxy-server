@@ -59,6 +59,15 @@ const order_schema = new mongoose.Schema({
     totalPrice: {
         type: String,
         required: true
+    },
+    order_status: {
+        type: String,
+        enum: ['Pending', 'Processing', 'Completed', 'Cancelled'],
+        default: 'Pending',
+    }, 
+    paid:{
+        type:Boolean,
+        default:false,
     }
 
 }, { timestamps: true });

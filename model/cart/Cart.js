@@ -37,8 +37,6 @@ const cartSchema = new mongoose.Schema({
         ref: "user",
         required: false
     },
-
-
 }, { timestamps: true });
 const CartDB = mongoose.model("cart", cartSchema);
 export default CartDB

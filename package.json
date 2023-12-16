@@ -38,6 +38,7 @@
     "paseto": "^3.1.4",
     "paypal-rest-sdk": "^1.8.1",
     "redis": "^4.6.8",
+    "socket.io": "^4.7.2",
     "strip": "^3.0.0",
     "winston": "^3.10.0"
   }

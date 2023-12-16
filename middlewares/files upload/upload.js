@@ -19,9 +19,9 @@ function upload(req, res, next) {
             callback(null, true);
         },
         limits: {
-            fileSize: 10 * 1024 * 1024, // 10MB
+            fileSize: 50 * 1024 * 1024, // 50MB
         }
-    }).array('images', 5);
+    }).array('images', 20);
 
     upload(req, res, (err) => {
         if (err instanceof multer.MulterError) {
