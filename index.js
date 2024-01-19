@@ -5,10 +5,13 @@ import limiter from "./services/limitRequests.js"
 import compression from "compression"
 import shouldCompress from "./services/compress.js"
 import morgan from "morgan"
+import { createServer } from "http"
+import chatWithUs from "./contorllers/chat/chatApp.js"
+import passport from "passport"
 /// creating the server 
 const app = express();
-//// get user ip address
-// app.set("trust proxy", 1);
+/// http server
+const server = createServer(app);
 /// security
 ////////////////////////////////////////////////// helmet for security
 import { helmetOptions, directives } from "./services/helmet.js"
@@ -20,6 +23,8 @@ app.use(compression(shouldCompress))
 ///////////////////////////////////////////////////////////// use cors
 import { corsOptions } from "./services/cors.js";
 app.use(cors(corsOptions));
+//// passport 
+//app.use(passport.initialize());
 //////////////////////////////////////////////////// just 200 requests in 10 miniutes
 app.use(limiter)
 ////////////////////////////////////////////////// body parser
@@ -68,12 +73,18 @@ app.use(mainApi, filterRouter)
 app.use(mainApi, excelRouter)
 
 ////////////////////////////////////////////////////////////////////////////////// admin 
-import { adminPermesionRouter, getOtpRouter, checkAdminCookieRouter, getAllProductsAdminRouter, editProductRouter } from "./routes/admin/allAdminRoutes.js"
-app.use(mainApi, adminPermesionRouter)
+import { getAllOrdersRouter, addProductFileRouter, contactUsAdminRouter, editStyleRouter, getOtpRouter, checkAdminCookieRouter, getAllProductsAdminRouter, editProductRouter, sendOtpROuter, deleteProductRouter, imageGeneratorRouter } from "./routes/admin/allAdminRoutes.js"
 app.use(mainApi, getOtpRouter)
 app.use(mainApi, checkAdminCookieRouter)
 app.use(mainApi, getAllProductsAdminRouter)
 app.use(mainApi, editProductRouter)
+app.use(mainApi, sendOtpROuter)
+app.use(mainApi, deleteProductRouter)
+app.use(mainApi, imageGeneratorRouter)
+app.use(mainApi, editStyleRouter)
+app.use(mainApi, contactUsAdminRouter)
+app.use(mainApi, addProductFileRouter)
+app.use(mainApi, getAllOrdersRouter)
 /////////////////////////////////////////////////////////// blogs admin
 import blogRouter from "./routes/admin/blogs/allBlogControllers.js"
 app.use(mainApi, blogRouter)
@@ -91,8 +102,8 @@ app.use(mainApi, DeleteCartItemRouter)
 app.use(mainApi, updateCartRouter)
 
 ///////////////////////////////////////////////// checkout routers
-import { getCheckoutPageRouter } from "./routes/checkout/allCheckoutRoutes.js";
-app.use(mainApi, getCheckoutPageRouter);
+
+
 
 /////////////////////////////////////////////////////////// orders routers
 import { newOrderRouter } from "./routes/orders/allOrdersRouters.js";
@@ -106,20 +117,23 @@ app.use(mainApi, searchRouter);
 import trackOrderRouter from "./routes/trackorder/trackOrderRouter.js"
 app.use(mainApi, trackOrderRouter);
 
-/////////////////////////////////////////////// chat with us app
-import chatWithUsRouter from "./routes/chat Router/chatRouter.js"
-app.use(mainApi, chatWithUsRouter)
-
 /////////////////////////////////////////////////////////// get user location
 import locationRouter from "./routes/getLocationRouter/getLocationRoute.js"
 app.use(mainApi, locationRouter)
+
+/////////////////////////////////////////////////////// chat with us
+chatWithUs(server);
+
+//////////////////////////////////////////////////////////// style routers
+import { homeStyleRouter } from "./routes/client/allClientRouters.js"
+////// home style
+app.use(mainApi, homeStyleRouter)
 //////////////////////////////////////// DB and start server 
 const url = process.env.url;
 const PORT = (process.env.port) || 6000
 import DB from "./model/db_functions.js"
-
-/// 
-const server = app.listen(PORT, '0.0.0.0', () => {
+/// listining to port 3000
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
@@ -131,29 +145,6 @@ server.on('error', (err) => {
     }
     process.exit(1); // Exit the process with an error code
 });
-
 /// connect to DB
 DB(url);
-
-// import axios from "axios"
-// import fs from "fs"
-// app.get("/pr", (req, res) => {
-//     axios.get('https://api.printful.com/store/variants/id?323057959', {
-//         headers: {
-//             "Authorization": "Bearer fylIZwIqfIt57KZBZiijksgjCnk8SxUEKc6JUKkp"
-//         }
-//     }).then(response => {
-//         // Log the response from the external API
-//         // Send a response to the client
-//         fs.writeFileSync("printfulFileVarients.json", JSON.stringify(response.data.result))
-//         res.json(response.data.result);
-//     })
-//         .catch(error => {
-//             // Handle any errors here
-//             console.error(error);
-//             res.status(500).send("An error occurred while making the request.");
-//         });
-
-
-// })
 

@@ -2,10 +2,6 @@
 const validateRequest = (schema) => {
     return (req, res, next) => {
         try {
-            // Early return if a special header is present
-            // if (req.headers._md === 'f-1') {
-            //     return next();
-            // }
             const methodsToValidate = ["body", "params", "headers", "query"];
             const errorArray = [];
 

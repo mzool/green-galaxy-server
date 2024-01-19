@@ -5,9 +5,10 @@ async function getOneProduct(req, res) {
     try {
         const { productid } = req.headers;
         const theProduct = await product.findOne({ productId: productid })
-            .select(["-_id", '-createdAt', "-updatedAt"])
+            .select(["-_id", '-createdAt', "-updatedAt"]).lean()
         if (theProduct) {
             // Response
+            console.log(theProduct);
             return res.status(200).json({
                 success: true,
                 message: "Produc found successfully",

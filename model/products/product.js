@@ -36,15 +36,19 @@ const productSchema = new mongoose.Schema({
     },
     availableCountries: [{
         type: String,
-        required: true,
+        default:["world"]
     }],
     productBrand: {
         type: String,
     },
+    isMadeToOrder: {
+        type: Boolean,
+        default: true
+    },
 
     colors: [{
         type: String,
-        default:[]
+        default: []
 
     }],
     sizes: [{
@@ -56,19 +60,27 @@ const productSchema = new mongoose.Schema({
         type: String,
         default: []
 
-    }]
+    }],
+    newProduct: {
+        type: Boolean,
+        default: true
+    },
+    rating:{
+        type:Number,
+        default:0
+    }
 
 }, { timestamps: true });
 // search 
 productSchema.index({
-    productName:"text",
-    productDescription:"text",
-    productBrand:"text",
-    colors:"text",
-    sizes:"text",
-    otherVarients:"text",
-    productCategory:"text",
-    productPrice:"text"
+    productName: "text",
+    productDescription: "text",
+    productBrand: "text",
+    colors: "text",
+    sizes: "text",
+    otherVarients: "text",
+    productCategory: "text",
+    productPrice: "text"
 })
 const product = mongoose.model('product', productSchema);
 

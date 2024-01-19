@@ -1,5 +1,5 @@
 import Joi from "joi"
-const regex = /^[a-zA-Z0-9 _.]+$/
+const regex = /^[a-zA-Z0-9 _.#]+$/
 
 const newOrderSchema = {
     body: Joi.object().required().keys({
@@ -34,7 +34,7 @@ const newOrderSchema = {
 
         items: Joi.array().items(
             Joi.object().keys({
-                product_id: Joi.string().regex(regex).required(),
+                productId: Joi.string().regex(regex).required(),
                 quantity: Joi.number().required(),
                 color: Joi.string().regex(regex).optional().allow(""),
                 size: Joi.string().regex(regex).optional().allow(""),
@@ -42,7 +42,7 @@ const newOrderSchema = {
             })
         ),
         totalPrice:Joi.number().required(),
-        cart_id:Joi.string().regex(regex).required(),
+        cartId:Joi.string().regex(regex).required(),
 
     })
 }

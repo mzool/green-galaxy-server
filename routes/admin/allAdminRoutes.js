@@ -1,7 +1,16 @@
 import getAllProductsAdminRouter from "./products/getAllRouter.js";
-import adminPermesionRouter from "./admin_permesion.js"
 import checkAdminCookieRouter from './checkAdminCookie.js'
 import getOtpRouter from "./getOtp.js"
 import editProductRouter from "./products/editroute.js"
-
-export {getAllProductsAdminRouter, adminPermesionRouter, checkAdminCookieRouter, getOtpRouter, editProductRouter}
+import sendOtpROuter from "./sendOtp.js"
+import deleteProductRouter from "./products/deleteProductRouter.js";
+import imageGeneratorRouter from "./imageGenerator/generateImageAdmin.js";
+import editStyleRouter from "./client/editeHomeStyle.js";
+import contactUsAdminRouter from "./contactUs/contactUsAdminRoute.js";
+import addProductFileRouter from "./products/addProductFromFile.js";
+import getAllOrdersRouter from "./orders/getAllOrdersRoute.js";
+export {
+    getAllProductsAdminRouter, checkAdminCookieRouter, getOtpRouter,
+    editProductRouter, sendOtpROuter, deleteProductRouter, imageGeneratorRouter,
+    editStyleRouter, contactUsAdminRouter, addProductFileRouter, getAllOrdersRouter
+}

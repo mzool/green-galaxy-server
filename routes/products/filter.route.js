@@ -6,6 +6,6 @@ import authorizeReq from "../../middlewares/auth/API_authorization.js"
 /// router
 const filterRouter = express.Router()
 
-filterRouter.post("/filter-products", authorizeReq, validateRequest(filterSchema), filterProducts);
+filterRouter.post("/filter-products", authorizeReq, filterProducts);
 
 export default filterRouter

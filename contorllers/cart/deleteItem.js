@@ -3,26 +3,25 @@ import CartDB from "../../model/cart/Cart.js";
 
 async function deleteCartItme(req, res) {
     try {
-        const { itemid, cartid } = req.headers;
+        const { cart_id, itemId } = req.body;
         /// if no cartid or no itemid
-        if (!cartid || !itemid) {
+        if (!cart_id || !itemId ) {
             return res.status(404).json({ error: "no cart id" })
         }
         /// get the cart 
-        const theCart = await CartDB.findOne({ cart_id: cartid });
+        const theCart = await CartDB.findOne({ cart_id });
         /// if the cart not found
         if (!theCart) {
             return res.status(404).json({ error: "no cart found in DB" })
-
         }
         /// check for item in the cart
-        let theItem = theCart.item.filter((itm) => {
-            if (itm.itemId != itemid) {
-                return itm
+        let wantedItems = theCart.items.filter((item) => {
+            if (item._id != itemId) {
+                return item
             }
         })
         /// update db
-        await CartDB.updateOne({ cart_id: cartid, "item.itemId": itemid }, { $set: { "item": theItem } }, { new: true })
+        await CartDB.updateOne({ cart_id }, { $set: { "items": wantedItems } }, { new: true })
         return res.status(200).json({ success: true, message: "item removed from your cart" })
     } catch (err) {
         logger.error(err);

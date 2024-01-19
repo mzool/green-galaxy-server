@@ -25,7 +25,7 @@ function upload(req, res, next) {
 
     upload(req, res, (err) => {
         if (err instanceof multer.MulterError) {
-            return res.status(422).json({ error: err.message });
+            return res.status(422).json({ error: err });
         } else if (err?.storageErrors?.length > 0) {
             return res.status(422).json({ error: "Invalid image type" });
         } else if (err) {

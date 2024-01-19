@@ -4,7 +4,6 @@ import idGenerator from '../../services/idGenerator.js'
 
 async function contactUs(req, res) {
     try {
-        console.log(req.body);
         const { name, email, phone, message } = req.body;
         const message_id = idGenerator(10)
         await ContactUsMsgs({

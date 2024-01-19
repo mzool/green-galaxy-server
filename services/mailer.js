@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer"
-
+import dotenv from "dotenv"
+dotenv.config()
 function sendEmail(emailInputs) {
     // Create a transporter object using SMTP transport
     const transporter = nodemailer.createTransport({

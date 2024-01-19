@@ -6,7 +6,6 @@ async function checkUserPermissions(req, res, next) {
         const { useremail } = req.headers;
         // Find the user and select isAdmin field only
         const userData = await user.findOne({ email: useremail }, { isAdmin: 1 });
-        console.log(userData, req.headers, useremail);
         if (!userData || !userData.isAdmin || ! ["superAdmin", "admin", "user"].includes(userData.isAdmin)) {
             // If user not found or isAdmin is not defined or invalid, return an error response
             logger.info(`Error: User not found or does not have a valid type.`);

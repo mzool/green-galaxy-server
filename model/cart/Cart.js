@@ -5,14 +5,11 @@ const cartSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    item: [{
-        itemId: {
-            type: String,
+    items: [{
+        product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "product",
             required:true
-        },
-        productId: {
-            type: String,
-            ref: "product"
         },
         quantity: {
             type: Number,
@@ -27,14 +24,10 @@ const cartSchema = new mongoose.Schema({
         otherVarients: {
             type: String
         },
-        purchased: {
-            type: Boolean,
-            default: false
-        }
     }],
-    user_id: {
-        type: String,
-        ref: "user",
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
         required: false
     },
 }, { timestamps: true });
