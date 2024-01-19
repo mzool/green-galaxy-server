@@ -7,11 +7,13 @@ const addProductSchema = {
         productCategory: Joi.string().required().label("Product category"),
         productPrice: Joi.string().required().label("Product price"),
         productStock: Joi.number().integer().min(0).required().label("Stock quantity"),
-        availableCountries: Joi.array().items(Joi.string().label("Country")).optional(),
+        availableCountries: Joi.string().optional(),
         productBrand: Joi.string().optional(),
-        productColors: Joi.array().optional(),
-        productSizes: Joi.array().optional(),
-        productOtherVarients: Joi.array().optional(),
+        productColors: Joi.string().optional(),
+        productSizes: Joi.string().optional(),
+        productOtherVarients: Joi.string().optional(),
+        productDiscount:Joi.number().optional(),
+        isMadeToOrder:Joi.string().optional()
     })
 };
 

@@ -1,5 +1,5 @@
 import Joi from "joi";
-const regex = /^[a-zA-Z0-9 _]+$/
+const regex = /^[a-zA-Z0-9 _#]+$/
 const AddToCartSchema = {
     body: Joi.object().required().keys({
         items: {

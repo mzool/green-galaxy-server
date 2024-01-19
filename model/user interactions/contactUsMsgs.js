@@ -21,7 +21,7 @@ const contactUsSchema = new mongoose.Schema({
     message: {
         type: String,
         required: true,
-    }
+    },
 }, { timestamps: true });
 
 const ContactUsMsgs = mongoose.model("contactUsMsg", contactUsSchema);

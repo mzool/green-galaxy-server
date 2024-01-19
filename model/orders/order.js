@@ -26,9 +26,12 @@ const order_schema = new mongoose.Schema({
         required: true
     },
     items: [{
-        product_id: {
-            type: String,
-            ref: "product"
+        product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'product',
+        },
+        discount: {
+            type: Number
         },
         quantity: {
             type: Number,
@@ -44,10 +47,6 @@ const order_schema = new mongoose.Schema({
             type: String
         },
     }],
-    cart_id: {
-        type: String,
-        required: true
-    },
     order_id: {
         type: String,
         required: true
@@ -64,10 +63,13 @@ const order_schema = new mongoose.Schema({
         type: String,
         enum: ['Pending', 'Processing', 'Completed', 'Cancelled'],
         default: 'Pending',
-    }, 
-    paid:{
-        type:Boolean,
-        default:false,
+    },
+    paid: {
+        type: Boolean,
+        default: false,
+    },
+    deliveredOn:{
+        type:String
     }
 
 }, { timestamps: true });

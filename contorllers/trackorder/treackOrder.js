@@ -1,38 +1,47 @@
 import logger from "../../services/winston_logger.js";
 import OrdersDB from "../../model/orders/order.js"
-import product from "../../model/products/product.js"
-
+import formatReadableDate from "../../services/dateFormatter.js";
 async function trackOrder(req, res) {
     try {
-        const { orderNumber } = req.body;
-        const theOrder = await OrdersDB.findOne({ order_id: orderNumber }).select(["-_id", "-__v", "-updatedAt", "-createdAt", "-order_id"]).lean();
+        const { orderNumber, email } = req.body;
+        if (!orderNumber || !email) {
+            return res.status(401).json({ success: false, message: "order number and email are required" })
+        }
+        const theOrder = await OrdersDB.findOne({ order_id: orderNumber, email }).select(["-_id", "-__v"])
+            .populate({
+                path: 'items.product',
+                model: 'product',
+            }).lean();
         if (!theOrder) {
             return res.status(404).json({ success: false, message: "no order found!" })
         }
-        /// all items contains products ids and quantity
-        const allItems = theOrder.items.map((item) => {
-            return [item.product_id, item.quantity];
-        });
-        //// get products ids
-        const ids = allItems.map((item)=>{return item[0]});
-        /// get all products in order
-        const theProducts = await product.find({ productId: { $in: ids } }).select(["-_id", "-__v", "-updatedAt", "-createdAt", "-order_id"]).lean();
-       /// confifure what items info to return to user
-        const items = theProducts.map((item, index) => {
-            return {name:item.productName, brand:item.productBrand, price:item.productPrice, image:item.productImgs[0], quantity:allItems[index][1] }
-        });
-        /// final order to res to user
+        //// order data to send
+        let items = [];
+        for (const item of theOrder.items) {
+            items.push({
+                name: item.product.productName,
+                id: item.product.productId,
+                image: item.product.productImgs[0],
+                price: item.product.productPrice,
+                quantity: item.quantity,
+                color: item.color,
+                size: item.size,
+                varient: item.otherVarients,
+                discount: item.discount || 0
+            })
+        }
         const order = {
-            order_status: theOrder.order_status,
-            orderNumber,
-            fullName: `${theOrder.firstName} ${theOrder.lastName}`,
-            address: `${theOrder.city} / ${theOrder.address} `,
-            totalPrice: theOrder.totalPrice,
-            paid: theOrder.paid,
-            payment_method: theOrder.payment_method,
-            phone_number: theOrder.phone,
-            items
-        };
+            userName: `${theOrder.firstName} ${theOrder.lastName}`,
+            userEmail: theOrder.email,
+            phoneNumber: theOrder.phone,
+            fullAddress: `${theOrder.city} / ${theOrder.address}`,
+            items,
+            orderNumber:theOrder.order_id,
+            placedAt: formatReadableDate(theOrder.createdAt),
+            total:theOrder.totalPrice,
+            paymentMethod:theOrder.payment_method,
+            status:theOrder.order_status
+        }
         return res.status(200).json({ success: true, order })
     } catch (err) {
         logger.error(err);
@@ -42,3 +51,22 @@ async function trackOrder(req, res) {
 }
 
 export default trackOrder
+
+//                         items: [
+//                             {
+//                                 product: [Object],
+//                                 discount: 6.18,
+//                                 quantity: 1,
+//                                 color: '',
+//                                 size: '',
+//                                 otherVarients: '',
+//                                 _id: new ObjectId("65aaa9e607d2c20bcfc6e182")
+//                             }
+//                         ],
+//                             order_id: 'order_8292915',
+//                                 payment_method: 'cash',
+//                                     totalPrice: '1031.08',
+//                                         order_status: 'Pending',
+//                                             paid: false,
+//                                                 createdAt: 2024-01 - 19T16: 57: 10.676Z,
+//                                                     updatedAt: 2024-01 - 19T16: 57: 10.676Z

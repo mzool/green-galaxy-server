@@ -12,15 +12,14 @@ async function GenerateProductExcelFile(req, res) {
         /// add vlues
         const allProducts = await product.find({});
         Object.keys(allProducts).forEach((product) => {
-            console.log(allProducts[product].colors.join(","));
-            worksheet.addRow([allProducts[product].productName, allProducts[product].productDescription, allProducts[product].productImgs.join(", "), allProducts[product].productCategory, allProducts[product].productPrice, allProducts[product].productStock, allProducts[product].productDiscount, allProducts[product].colors.join(", "), allProducts[product].sizes.join(", "), allProducts[product].otherVarients.join(", "), allProducts[product].availableCountries.join(", ")])
-        
+            worksheet.addRow([allProducts[product].productName, allProducts[product].productDescription, allProducts[product].productImgs?.join(", "), allProducts[product].productCategory, allProducts[product].productPrice, allProducts[product].productStock, allProducts[product].productDiscount, allProducts[product].colors?.join(", "), allProducts[product].sizes?.join(", "), allProducts[product].otherVarients?.join(", "), allProducts[product].availableCountries?.join(", ")])
+
         })
         /// spread sheet format
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        res.setHeader('Content-Disposition', 'attachment; filename=all_products.xlsx');
+        res.setHeader('Content-Disposition', 'attachment; filename=products.xlsx');
         await workbook.xlsx.write(res);
-       return res.end()
+        return res.end()
     } catch (err) {
         logger.error(err);
         console.log(err.message);

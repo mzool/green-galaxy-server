@@ -8,29 +8,19 @@ async function getAllProducts(req, res) {
         const limit = parseInt(req.query.limit) || 20;
         const skip = (page - 1) * limit;
         /// get cached items
-        let cachedProduct = await cach("get", `page:${page}_limit:${limit}_products`);
-        if (cachedProduct) {
-            return res.status(200).json({
-                success: true,
-                message: "Products fetched successfully",
-                data: JSON.parse(cachedProduct),
-            });
-        } else {
-            const allProducts = await product.find({})
-                .select(["-_id", '-createdAt', "-updatedAt"])
-                .limit(limit)
-                .skip(skip)
-                .lean();
-            /// save to cach
-            await cach("set", `page:${page}_limit:${limit}_products`, JSON.stringify(allProducts), 30)
-            // Response
-            return res.status(200).json({
-                success: true,
-                message: "Products fetched successfully",
-                data: allProducts,
-            });
+        let cachedProducts = await cach("get", "all_products");
+        if (cachedProducts) {
+            let itemsToSend = JSON.parse(cachedProducts).slice(skip, limit * page);
+            return res.status(200).json({ success: true, products: itemsToSend })
         }
-
+        //// get all products and cach them
+        const allProducts = await product.find({})
+            .select(["-_id", '-createdAt', "-updatedAt", "-__v"]).lean();
+        /// save all products to cach
+        await cach("set", "all_products", JSON.stringify(allProducts), 30);
+        const itemsToSend = allProducts.slice(skip, limit);
+        //// response
+        return res.status(200).json({ success: true, products: itemsToSend })
     } catch (err) {
         console.log(err.message);
         logger.error(`Error in getAllProducts: ${err}`);

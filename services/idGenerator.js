@@ -11,7 +11,7 @@ function idGenerator(lenOfId, product = false, cart = false, blog = false, order
             id = id + String(Math.floor(Math.random() * 10))
         }
         if (product === true) {
-            return "pr_ " + id
+            return "pr_" + id
         } else if (cart == true) {
             return "_cart_number_" + id
         } else if (blog == true) {

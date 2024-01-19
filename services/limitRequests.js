@@ -17,8 +17,8 @@ const resendEmailConfirmationLimiter = rateLimit({
 })
 /// for OTP
 const OTPLimiter = rateLimit({
-    windowMs: 5 * 60 * 1000, // 24 hours in milliseconds
-    max: 1, // Limit each IP to 1 request per windowMs
+    windowMs: 5 * 60 * 1000, // 5 minutes in milliseconds
+    max: 10, // Limit each IP to 1 request per windowMs
     message: 'Too many requests from this IP, please try again after an hour.',
     standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers

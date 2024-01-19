@@ -2,18 +2,29 @@ import OrdersDb from "../../model/orders/order.js";
 import logger from "../../services/winston_logger.js";
 import idGenerator from "../../services/idGenerator.js"
 import CartDb from "../../model/cart/Cart.js"
+import ProductDB from '../../model/products/product.js'
 async function newOrder(req, res) {
     try {
-        const { firstName, lastName, phone, email, address, city, items, cart_id, payment_method, totalPrice } = req.body;
-        const order_id = idGenerator(6, false, false, false, true);
-        const allOrders = await OrdersDb.find({});
+        const { firstName, lastName, phone, email, address, city, items, payment_method, totalPrice, cartId } = req.body;
+        let order_id = idGenerator(6, false, false, false, true);
+        let checkOrderId = await OrdersDb.find({ order_id });
         let checker = false;
         while (checker == false) {
             checker = true;
-            allOrders.forEach((order) => {
-                if (order.order_id == order_id) checker = false
-            })
+            if (checkOrderId.length > 0) {
+                order_id = idGenerator(6, false, false, false, true);
+                checkOrderId = await OrdersDb.find({ order_id });
+                checker = false;
+            }
         }
+        //// populate the product
+        for (const item of items) {
+            const product = await ProductDB.find({ productId: item.productId }).lean();
+            item.product = product[0]._id;
+            item.discount = product[0].productDiscount;
+            delete item["productId"]
+        }
+
         const newOrder = await new OrdersDb({
             order_id,
             firstName,
@@ -23,14 +34,13 @@ async function newOrder(req, res) {
             address,
             items,
             city,
-            cart_id,
             payment_method,
             totalPrice
         }).save();
         /// clear cart cookie
-        res.clearCookie(`green_G_cart_${cart_id}`);
+        res.clearCookie(`cart`);
         /// delete cart from DB
-        await CartDb.deleteOne({ cart_id });
+        await CartDb.deleteOne({ cart_id: cartId });
         /// send email with reciept to user 
         return res.status(200).json({ success: true, orderNumber: order_id, message: `Thank you for trust Green Galaxy, you can track your order using this order number ${order_id}` })
 
