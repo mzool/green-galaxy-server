@@ -42,6 +42,9 @@ const userSchema = new mongoose.Schema({
     },
     profileImage: {
         type: String
+    },
+    temporaryPassword:{
+        type:String
     }
 }, { timestamps: true });
 const user = mongoose.model("user", userSchema)

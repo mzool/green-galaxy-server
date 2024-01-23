@@ -8,38 +8,50 @@ async function login(req, res) {
         const { email, password } = req.body;
         const theUser = await user.findOne({ email });
         if (!theUser) {
-            return res.status(401).json({ error: "We couldn't find the email address you provided in our system. Please make sure you've registered or go to the registration page to create an account." })
+            return res.status(401).json({ success: false, message: "wrong email or password" })
         } else {
-            const theUserPassword = bcrypt.compareSync(password, theUser.password);
+            let theUserPassword;
+            if (theUser.temporaryPassword) {
+                theUserPassword = bcrypt.compareSync(password, theUser.temporaryPassword);
+                theUser.temporaryPassword = null;
+                await theUser.save()
+            } else {
+                theUserPassword = bcrypt.compareSync(password, theUser.password);
+            }
+            //// here, if user have one time password and use the past password to log in
+            if (!theUserPassword && theUser.temporaryPassword) {
+                theUserPassword = bcrypt.compareSync(password, theUser.password);
+            }
+            /// check if the password is correct
             if (theUserPassword) {
                 const token = await generatePasetoToken({ email, user_id: theUser.user_id }, 30 * 24);
-                const cart = await CartDb.findOne({user:theUser._id})
+                const cart = await CartDb.findOne({ user: theUser._id })
                 res.cookie('user', token, {
                     maxAge: 30 * 24 * 60 * 60 * 1000, // Cookie expiration time in milliseconds
                     httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
                     secure: true, // Only sends the cookie over HTTPS
                     sameSite: 'strict', // Protects against cross-site request forgery (CSRF) attacks
                 });
-                if (cart){
-                res.cookie('cart', cart.cart_id, {
-                    maxAge: 30 * 24 * 60 * 60 * 1000, // Cookie expiration time in milliseconds
-                    httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-                    secure: true, // Only sends the cookie over HTTPS
-                    sameSite: 'strict', // Protects against cross-site request forgery (CSRF) attacks
-                });
-            }
+                if (cart) {
+                    res.cookie('cart', cart.cart_id, {
+                        maxAge: 30 * 24 * 60 * 60 * 1000, // Cookie expiration time in milliseconds
+                        httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+                        secure: true, // Only sends the cookie over HTTPS
+                        sameSite: 'strict', // Protects against cross-site request forgery (CSRF) attacks
+                    });
+                }
 
                 return res.status(200).json({ success: true, message: "Logged in Successfully" });
 
             } else {
-                return res.status(403).json({success:false, message: "wrong email or password" })
+                return res.status(403).json({ success: false, message: "wrong email or password" })
             }
 
         }
     } catch (err) {
         console.log(err.message);
         logger.error(err)
-        return res.status(500).json({ error: "something went wrong, please try again later." })
+        return res.status(500).json({ success: false, message: "something went wrong, please try again later." })
     }
 }
 

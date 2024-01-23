@@ -9,8 +9,11 @@ import editStyleRouter from "./client/editeHomeStyle.js";
 import contactUsAdminRouter from "./contactUs/contactUsAdminRoute.js";
 import addProductFileRouter from "./products/addProductFromFile.js";
 import getAllOrdersRouter from "./orders/getAllOrdersRoute.js";
+import updateOrderRouter from "./orders/updateOrderRoute.js";
+import employeesRouter from "./employees/allEmployeesRoutes.js";
 export {
     getAllProductsAdminRouter, checkAdminCookieRouter, getOtpRouter,
     editProductRouter, sendOtpROuter, deleteProductRouter, imageGeneratorRouter,
-    editStyleRouter, contactUsAdminRouter, addProductFileRouter, getAllOrdersRouter
+    editStyleRouter, contactUsAdminRouter, addProductFileRouter, getAllOrdersRouter,
+    updateOrderRouter, employeesRouter
 }

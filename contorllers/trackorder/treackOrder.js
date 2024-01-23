@@ -36,11 +36,12 @@ async function trackOrder(req, res) {
             phoneNumber: theOrder.phone,
             fullAddress: `${theOrder.city} / ${theOrder.address}`,
             items,
-            orderNumber:theOrder.order_id,
+            orderNumber: theOrder.order_id,
             placedAt: formatReadableDate(theOrder.createdAt),
-            total:theOrder.totalPrice,
-            paymentMethod:theOrder.payment_method,
-            status:theOrder.order_status
+            total: theOrder.totalPrice,
+            paymentMethod: theOrder.payment_method,
+            status: theOrder.order_status,
+            detailedStatus:theOrder.detailedStatus
         }
         return res.status(200).json({ success: true, order })
     } catch (err) {
@@ -51,22 +52,3 @@ async function trackOrder(req, res) {
 }
 
 export default trackOrder
-
-//                         items: [
-//                             {
-//                                 product: [Object],
-//                                 discount: 6.18,
-//                                 quantity: 1,
-//                                 color: '',
-//                                 size: '',
-//                                 otherVarients: '',
-//                                 _id: new ObjectId("65aaa9e607d2c20bcfc6e182")
-//                             }
-//                         ],
-//                             order_id: 'order_8292915',
-//                                 payment_method: 'cash',
-//                                     totalPrice: '1031.08',
-//                                         order_status: 'Pending',
-//                                             paid: false,
-//                                                 createdAt: 2024-01 - 19T16: 57: 10.676Z,
-//                                                     updatedAt: 2024-01 - 19T16: 57: 10.676Z

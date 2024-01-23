@@ -23,8 +23,17 @@ const OTPLimiter = rateLimit({
     standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 
-})
+});
+//// forget password limiter
+const forgetPasswordLimiter = rateLimit({
+    windowMs: 24* 60 * 60 * 1000, // 1 day in milliseconds
+    max: 1, // Limit each IP to 1 request per windowMs
+    message: 'We had sent an email with new password for this email, you can try again after one day.',
+    standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+
+});
 
 
-export { resendEmailConfirmationLimiter, OTPLimiter }
+export { resendEmailConfirmationLimiter, OTPLimiter, forgetPasswordLimiter }
 export default limiter
