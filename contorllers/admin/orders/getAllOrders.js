@@ -3,7 +3,12 @@ import OrdersDB from "../../../model/orders/order.js"
 
 async function getAllOrders(req, res) {
     try {
-        const allOrders = await OrdersDB.find({}).select(["-_id", "-__v"]).lean();
+        const allOrders = await OrdersDB.find({}).populate({
+            path: "items.product",
+            model: "product",
+            select: "-_id -__v -createdAt -updatedAt -productImgs"
+        }).lean();
+     
         return res.status(200).json({ success: true, allOrders, numberOfOrders: allOrders.length })
     } catch (err) {
         console.log(err.message);

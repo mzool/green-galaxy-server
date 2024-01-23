@@ -28,7 +28,7 @@ async function veriyOTP(req, res) {
                     sameSite: 'strict'
                 });
                 await cash("del", user_id);
-                return res.status(200).json({success:true, message:"otp verified successfully"})
+                return res.status(200).json({ success: true, rule: theUser.isAdmin, message: "otp verified successfully" })
             } else {
                 return res.status(401).json({
                     error: "OTP invalid",

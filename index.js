@@ -41,11 +41,13 @@ dotenv.config();
 /// routes
 const mainApi = process.env.apiurl
 /// ////////////////////////////////////////////////all user routes
-import { registerRouter, loginRouter, confirmEmailRouter, logoutRouter, contactUsRouter } from './routes/user routes/allUser.routes.js'
-///////////////////////////////////////////////////////// registration route
+import {cancellOrderRouter, getAllOrderRouter, changePasswordRouter, forgetPasswordRouter, registerRouter, loginRouter, confirmEmailRouter, logoutRouter, contactUsRouter } from './routes/user routes/allUser.routes.js'
+app.use(mainApi, getAllOrderRouter)
 app.use(mainApi, registerRouter)
-////////////////////////////////////////////////////// confirm email route 
+app.use(mainApi, forgetPasswordRouter)
+app.use(mainApi, changePasswordRouter)
 app.use(mainApi, confirmEmailRouter)
+app.use(mainApi, cancellOrderRouter)
 /////////////////////////////////////////////////////// resend confirmation email
 import reSendRouter from "./routes/auth routes/resend_confrimationEmail.js"
 app.use(mainApi, reSendRouter)
@@ -73,7 +75,7 @@ app.use(mainApi, filterRouter)
 app.use(mainApi, excelRouter)
 
 ////////////////////////////////////////////////////////////////////////////////// admin 
-import { getAllOrdersRouter, addProductFileRouter, contactUsAdminRouter, editStyleRouter, getOtpRouter, checkAdminCookieRouter, getAllProductsAdminRouter, editProductRouter, sendOtpROuter, deleteProductRouter, imageGeneratorRouter } from "./routes/admin/allAdminRoutes.js"
+import {employeesRouter ,updateOrderRouter, getAllOrdersRouter, addProductFileRouter, contactUsAdminRouter, editStyleRouter, getOtpRouter, checkAdminCookieRouter, getAllProductsAdminRouter, editProductRouter, sendOtpROuter, deleteProductRouter, imageGeneratorRouter } from "./routes/admin/allAdminRoutes.js"
 app.use(mainApi, getOtpRouter)
 app.use(mainApi, checkAdminCookieRouter)
 app.use(mainApi, getAllProductsAdminRouter)
@@ -85,6 +87,9 @@ app.use(mainApi, editStyleRouter)
 app.use(mainApi, contactUsAdminRouter)
 app.use(mainApi, addProductFileRouter)
 app.use(mainApi, getAllOrdersRouter)
+app.use(mainApi, updateOrderRouter)
+app.use(mainApi, employeesRouter)
+
 /////////////////////////////////////////////////////////// blogs admin
 import blogRouter from "./routes/admin/blogs/allBlogControllers.js"
 app.use(mainApi, blogRouter)

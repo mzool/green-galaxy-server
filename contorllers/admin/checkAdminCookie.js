@@ -5,6 +5,7 @@ async function checkAdminCookie(req, res) {
         if (permesions === "admin" || permesions === "superAdmin") {
             return res.status(200).json({
                 success: true,
+                rule:permesions,
                 message: "Admin session is valid"
             })
         } else {

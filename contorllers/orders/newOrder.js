@@ -18,12 +18,18 @@ async function newOrder(req, res) {
             }
         }
         //// populate the product
+        let finalPrice = 0;
         for (const item of items) {
             const product = await ProductDB.find({ productId: item.productId }).lean();
             item.product = product[0]._id;
             item.discount = product[0].productDiscount;
+            finalPrice = finalPrice + product[0].productPrice * (1 - product[0].productDiscount / 100)
+            await ProductDB.updateOne({ productId: item.productId }, { productStock: product[0].productStock - 1 }, { new: true });
             delete item["productId"]
-        }
+        };
+        const tax  = .16;
+        const delivery = 5;
+        finalPrice = finalPrice + finalPrice* tax + delivery;
 
         const newOrder = await new OrdersDb({
             order_id,
@@ -35,8 +41,9 @@ async function newOrder(req, res) {
             items,
             city,
             payment_method,
-            totalPrice
+            totalPrice:finalPrice
         }).save();
+        /// update products stock
         /// clear cart cookie
         res.clearCookie(`cart`);
         /// delete cart from DB
