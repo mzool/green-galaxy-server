@@ -6,7 +6,7 @@ import { verifyPasetoToken } from "../../services/passeto.js"
 async function AuthReqProxy(req, res, next) {
     try {
         console.log(req.headers);
-        const authorization_token = req.headers.prx;
+        const authorization_token = req.headers["Authorization"];
         if (!authorization_token) {
             return res.status(401).json({ error: "Unauthorized request!!" })
         } else {
