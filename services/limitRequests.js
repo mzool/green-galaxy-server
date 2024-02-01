@@ -33,7 +33,15 @@ const forgetPasswordLimiter = rateLimit({
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 
 });
+//// enable tow steps login
+const towStepsLoginLimiter = rateLimit({
+    windowMs: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    max: 1, // Limit each IP to 1 request per windowMs
+    message: 'You can update tow time seps login once a day',
+    standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 
+});
 
-export { resendEmailConfirmationLimiter, OTPLimiter, forgetPasswordLimiter }
+export { resendEmailConfirmationLimiter, OTPLimiter, forgetPasswordLimiter, towStepsLoginLimiter }
 export default limiter

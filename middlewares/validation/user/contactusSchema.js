@@ -4,7 +4,6 @@ import Joi from "joi"
 const contactUsSchema = {
     body: Joi.object().required().keys({
         name: Joi.string()
-            .regex(/^[a-zA-Z0-9_ +]+$/)
             .trim()
             .required(),
 
@@ -14,12 +13,10 @@ const contactUsSchema = {
 
         phone: Joi.string()
             .length(10)
-            .pattern(/^[0-9]+$/)
             .required(),
         message: Joi.string()
             .min(0)
             .max(1000)
-            .regex(/^[a-zA-Z0-9_.,; +]+$/)
             .trim()
             .required(),
     })

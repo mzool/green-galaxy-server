@@ -41,7 +41,6 @@ const newOrderSchema = {
                 otherVarients: Joi.string().regex(regex).optional().allow(""),
             })
         ),
-        totalPrice:Joi.number().required(),
         cartId:Joi.string().regex(regex).required(),
 
     })

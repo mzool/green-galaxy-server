@@ -6,7 +6,8 @@ function chatWithUs(server) {
     const io = new Server(server, {
         cors: {
             origin: process.env.origin
-        }
+        },
+        secure:true
     });
     //// client chat
     clientChat(io)

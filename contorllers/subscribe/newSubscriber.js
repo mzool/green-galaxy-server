@@ -4,18 +4,19 @@ import subscribers from "../../model/subscribe/subscribers.js"
 async function addSubscriber(req, res) {
     try {
         const { email } = req.body;
-console.log(email);
         let theEmail = await subscribers.findOne({ email });
         if (theEmail) {
-            return res.status(401).json({ error: "user is already subscribed !" })
+            return res.status(200).json({ success: true, message: "subscribed" })
         } else {
             const newEmail = new subscribers({
                 email
             }).save();
-            return res.status(200).json({ message: "subscribed successfully" })
+            return res.status(200).json({ success: true, message: "subscribed successfully" })
         }
     } catch (err) {
-        logger.info(`subscribe error: ${err.message}`)
+        console.log(err.message);
+        logger.error(err);
+        return res.status(500).json({ success: false, message: "something went error, try again later" })
     }
 }
 

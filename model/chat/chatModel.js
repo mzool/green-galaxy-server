@@ -1,16 +1,17 @@
 import mongoose from "mongoose";
 
 const chat_schema = new mongoose.Schema({
-    user_id:{
-        type:String,
-        required:true
+    user_id: {
+        type: String,
+        required: true
     },
     messages: [{
-        text:{
-            type:String
+        text: {
+            type: String
         },
         messageTime: {
-            type: String
+            type: Date,
+            default: Date.now
         },
     }]
 }, { timestamps: true });

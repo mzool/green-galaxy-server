@@ -2,6 +2,7 @@ import user from "../../model/users.js"
 import logger from "../../services/winston_logger.js";
 import { verifyPasetoToken } from "../../services/passeto.js";
 import fs from "fs";
+import path from "path";
 
 async function isAdmin(req, res, next) {
     try {
@@ -12,10 +13,11 @@ async function isAdmin(req, res, next) {
             return res.status(401).json({ error: "Unauthorized !" });
         }
         /// verify token
-        let publicKey = fs.readFileSync("publicKey.pem");
+        const publicKeyPath = path.resolve("publicKey.pem");
+        let publicKey = fs.readFileSync(publicKeyPath);
         const userData = await verifyPasetoToken(user_token, publicKey);
 
-        let theUser = await user.findOne({ user_id: userData.payload.user_id });
+        let theUser = await user.findOne({ user_id: userData.payload.id });
         if (!theUser) {
             return res.status(401).json({ error: "Unauthorized Session!" });
         }
