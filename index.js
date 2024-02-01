@@ -83,7 +83,7 @@ app.use(mainApi, filterRouter)
 app.use(mainApi, excelRouter)
 
 ////////////////////////////////////////////////////////////////////////////////// admin 
-import {employeesRouter ,updateOrderRouter, getAllOrdersRouter, addProductFileRouter, contactUsAdminRouter, editStyleRouter, getOtpRouter, checkAdminCookieRouter, getAllProductsAdminRouter, editProductRouter, sendOtpROuter, deleteProductRouter, imageGeneratorRouter } from "./routes/admin/allAdminRoutes.js"
+import { employeesRouter, updateOrderRouter, getAllOrdersRouter, addProductFileRouter, contactUsAdminRouter, editStyleRouter, getOtpRouter, checkAdminCookieRouter, getAllProductsAdminRouter, editProductRouter, sendOtpROuter, deleteProductRouter, imageGeneratorRouter } from "./routes/admin/allAdminRoutes.js"
 app.use(mainApi, getOtpRouter)
 app.use(mainApi, checkAdminCookieRouter)
 app.use(mainApi, getAllProductsAdminRouter)
@@ -156,8 +156,3 @@ server.on('error', (err) => {
 });
 /// connect to DB
 DB(url);
-// import { generatePasetoToken } from "./services/passeto.js"
-// app.use("/generate", async (req, res)=>{
-// const t = await generatePasetoToken({location:"client server", name:"Mohammad"}, 24*365);
-// res.json({t})
-// })
