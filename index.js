@@ -8,7 +8,8 @@ import morgan from "morgan"
 import { createServer } from "http"
 import chatWithUs from "./contorllers/chat/chatApp.js"
 import passport from "passport"
-import AuthReqProxy from "./middlewares/mainMiddlewares/authRequestsProxy.js"
+import addAuthHeaderShellOne from "./middlewares/mainMiddlewares/addShellOne.js"
+import authorizeReq from "./middlewares/auth/API_authorization.js"
 /// creating the server 
 const app = express();
 /// http server
@@ -40,7 +41,8 @@ app.use(morgan(customLogFormat));
 ///////////////////////////////////////////////////// environment variables 
 dotenv.config();
 /////////////////////////////////////////// main prox middlewares
-app.use(AuthReqProxy)
+app.use(addAuthHeaderShellOne)
+app.use(authorizeReq)
 /// routes
 const mainApi = process.env.apiurl
 /// ////////////////////////////////////////////////all user routes

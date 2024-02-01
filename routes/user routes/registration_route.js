@@ -2,14 +2,13 @@ import express from "express"
 import validateRequest from "../../middlewares/validation/validationFunction.js"
 import registerSchema from "../../middlewares/validation/registerValidation.js"
 import registerNewUser from "../../contorllers/authentication/register.js"
-import authorizeReq from "../../middlewares/auth/API_authorization.js"
 import googleRegister from "../../contorllers/authentication/googleRegister.js"
 import passport from "passport"
 import dotenv from "dotenv"
 dotenv.config()
 const registerRouter = express.Router()
 
-registerRouter.post('/register/new/user', authorizeReq, validateRequest(registerSchema), registerNewUser);
+registerRouter.post('/register/new/user', validateRequest(registerSchema), registerNewUser);
 
 //// google registeration
 // registerRouter.get("/register/google",
