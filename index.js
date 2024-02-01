@@ -8,6 +8,7 @@ import morgan from "morgan"
 import { createServer } from "http"
 import chatWithUs from "./contorllers/chat/chatApp.js"
 import passport from "passport"
+import AuthReqProxy from "./middlewares/mainMiddlewares/authRequestsProxy.js"
 /// creating the server 
 const app = express();
 /// http server
@@ -38,16 +39,23 @@ import customLogFormat from "./services/requests_logging.js"
 app.use(morgan(customLogFormat));
 ///////////////////////////////////////////////////// environment variables 
 dotenv.config();
+/////////////////////////////////////////// main prox middlewares
+app.use(AuthReqProxy)
 /// routes
 const mainApi = process.env.apiurl
 /// ////////////////////////////////////////////////all user routes
-import {cancellOrderRouter, getAllOrderRouter, changePasswordRouter, forgetPasswordRouter, registerRouter, loginRouter, confirmEmailRouter, logoutRouter, contactUsRouter } from './routes/user routes/allUser.routes.js'
+import { getOTPFromUserRouter, checkForOtpTokenRouter, enableTowStepsLoginRouter, cancellOrderRouter, getAllOrderRouter, changePasswordRouter, forgetPasswordRouter, registerRouter, loginRouter, confirmEmailRouter, logoutRouter, contactUsRouter } from './routes/user routes/allUser.routes.js'
 app.use(mainApi, getAllOrderRouter)
 app.use(mainApi, registerRouter)
 app.use(mainApi, forgetPasswordRouter)
 app.use(mainApi, changePasswordRouter)
 app.use(mainApi, confirmEmailRouter)
 app.use(mainApi, cancellOrderRouter)
+app.use(mainApi, enableTowStepsLoginRouter)
+app.use(mainApi, checkForOtpTokenRouter)
+app.use(mainApi, getOTPFromUserRouter)
+
+
 /////////////////////////////////////////////////////// resend confirmation email
 import reSendRouter from "./routes/auth routes/resend_confrimationEmail.js"
 app.use(mainApi, reSendRouter)
@@ -106,10 +114,6 @@ app.use(mainApi, getCartRouter)
 app.use(mainApi, DeleteCartItemRouter)
 app.use(mainApi, updateCartRouter)
 
-///////////////////////////////////////////////// checkout routers
-
-
-
 /////////////////////////////////////////////////////////// orders routers
 import { newOrderRouter } from "./routes/orders/allOrdersRouters.js";
 app.use(mainApi, newOrderRouter)
@@ -127,7 +131,7 @@ import locationRouter from "./routes/getLocationRouter/getLocationRoute.js"
 app.use(mainApi, locationRouter)
 
 /////////////////////////////////////////////////////// chat with us
-chatWithUs(server);
+//chatWithUs(server);
 
 //////////////////////////////////////////////////////////// style routers
 import { homeStyleRouter } from "./routes/client/allClientRouters.js"
@@ -152,4 +156,8 @@ server.on('error', (err) => {
 });
 /// connect to DB
 DB(url);
-
+// import { generatePasetoToken } from "./services/passeto.js"
+// app.use("/generate", async (req, res)=>{
+// const t = await generatePasetoToken({location:"client server", name:"Mohammad"}, 24*365);
+// res.json({t})
+// })

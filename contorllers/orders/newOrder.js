@@ -3,9 +3,13 @@ import logger from "../../services/winston_logger.js";
 import idGenerator from "../../services/idGenerator.js"
 import CartDb from "../../model/cart/Cart.js"
 import ProductDB from '../../model/products/product.js'
+import sendEmail from "../../services/mailer.js"
+import path from "path"
+import fs from "fs"
+
 async function newOrder(req, res) {
     try {
-        const { firstName, lastName, phone, email, address, city, items, payment_method, totalPrice, cartId } = req.body;
+        const { firstName, lastName, phone, email, address, city, items, payment_method, cartId } = req.body;
         let order_id = idGenerator(6, false, false, false, true);
         let checkOrderId = await OrdersDb.find({ order_id });
         let checker = false;
@@ -27,9 +31,9 @@ async function newOrder(req, res) {
             await ProductDB.updateOne({ productId: item.productId }, { productStock: product[0].productStock - 1 }, { new: true });
             delete item["productId"]
         };
-        const tax  = .16;
+        const tax = .16;
         const delivery = 5;
-        finalPrice = finalPrice + finalPrice* tax + delivery;
+        finalPrice = finalPrice + finalPrice * tax + delivery;
 
         const newOrder = await new OrdersDb({
             order_id,
@@ -41,13 +45,24 @@ async function newOrder(req, res) {
             items,
             city,
             payment_method,
-            totalPrice:finalPrice
+            totalPrice: finalPrice
         }).save();
         /// update products stock
         /// clear cart cookie
         res.clearCookie(`cart`);
         /// delete cart from DB
         await CartDb.deleteOne({ cart_id: cartId });
+        /// send email to user
+        const htmlPath = path.resolve("views/orderConfirmation.html");
+        const html = fs.readFileSync(htmlPath, "utf-8").replace("${$order_number}", order_id).
+            replace("${$email$}", email).replace("${$order_number}", order_id);
+        const input = {
+            email, // Recipient's email address
+            sub: "New Order from Green Galaxy",
+            text: "Thank you for trust Green Galaxy",
+            html
+        }
+        sendEmail(input);
         /// send email with reciept to user 
         return res.status(200).json({ success: true, orderNumber: order_id, message: `Thank you for trust Green Galaxy, you can track your order using this order number ${order_id}` })
 

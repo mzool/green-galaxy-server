@@ -8,7 +8,6 @@ async function getOneProduct(req, res) {
             .select(["-_id", '-createdAt', "-updatedAt"]).lean()
         if (theProduct) {
             // Response
-            console.log(theProduct);
             return res.status(200).json({
                 success: true,
                 message: "Produc found successfully",

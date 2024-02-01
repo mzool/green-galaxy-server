@@ -18,8 +18,8 @@ async function AddToCart(req, res) {
         //// if there a user token get the user id
         if (user_token) {
             const publickKey = fs.readFileSync("publicKey.pem");
-            const user_id = await verifyPasetoToken(user_token, publickKey);
-            theUser = await user.findOne({ user_id: user_id.payload.user_id });
+            const payload = await verifyPasetoToken(user_token, publickKey);
+            theUser = await user.findOne({ user_id: payload.payload.id });
             if (!theUser) {
                 res.clearCookie("user");
                 return res.status(401).json({ success: false, message: "Session Expired!" })

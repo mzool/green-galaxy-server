@@ -1,39 +1,27 @@
 import logger from '../../services/winston_logger.js'
-import userDB from "../../model/users.js"
 import fs from "fs"
-import { join } from 'path';
-import { fileURLToPath } from 'url';
-import { verifyPasetoToken } from '../../services/passeto.js';
 import idGenerator from "../../services/idGenerator.js";
 import sendEmail from "../../services/mailer.js"
 import cash from '../../services/redis.js';
+import path from 'path';
+
+
 async function sendOtp(req, res) {
     try {
-        const { user } = req.cookies;
+        const { user } = req;
         /// no user cookie
-        if (!user) { return res.status(401).json({ success: false, message: "user token not found" }) }
-        //// verify cookie
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = join(__filename, '..'); // Assuming you want the directory containing the current module
-        const publicKeyPath = join(__dirname, "../../publicKey.pem");
-        const key = fs.readFileSync(publicKeyPath);
-        //// get the payload from cookie
-        const payload = await verifyPasetoToken(user, key);
-        const theUser = await userDB.findOne({ user_id: payload.payload.user_id });
-        if (!theUser) {
-            return res.status(401).json({ success: false, message: "session expired" })
-        }
+        if (!user) { return res.status(401).json({ success: false, message: "user not found" }) }
+
         //// if he is admin
-        if (theUser.isAdmin === "admin" || theUser.isAdmin === "superAdmin") {
+        if (user.isAdmin === "admin" || user.isAdmin === "superAdmin") {
             const otp = idGenerator(5);
-            cash("set", theUser.user_id, otp);
+            cash("set", user.user_id, otp);
             /// get html file
-            const htmlPath = fileURLToPath(import.meta.url);
-            const htmlFile = join(htmlPath, "../../../views/OTPEmail.html");
-            const html = fs.readFileSync(htmlFile, 'utf-8').replace("${OTP}", otp)
+            const htmlPath = path.resolve("views/OTPEmail.html");
+            const html = fs.readFileSync(htmlPath, 'utf-8').replace("{$OTP$}", otp);
             //// email 
             const emailInputs = {
-                email:theUser.email,
+                email: user.email,
                 sub: 'One Time Password',
                 text: 'Please Enter this one time password in order to access admin page of Green Galaxy',
                 html

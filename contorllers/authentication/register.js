@@ -5,8 +5,9 @@ import sendEmail from "../../services/mailer.js"
 import { generatePasetoToken } from "../../services/passeto.js"
 import generateRandomString from "../../services/randomString.js"
 import fs from "fs"
-import { fileURLToPath } from 'url';
-import { join, dirname } from 'path';
+import path from 'path';
+
+
 const registerNewUser = async (req, res) => {
     try {
         if (req.headers?.cookie?.includes("user")) {
@@ -43,15 +44,12 @@ const registerNewUser = async (req, res) => {
             logger.info(`new user registerd with email ${email}`);
             /// send confirmation email 
             /// generate token
-            const token = await generatePasetoToken({ email, user_id }, 1);
+            const token = await generatePasetoToken({ email, id: user_id }, 1);
             //// url of the email, when user go for we get the params that contains the token and confirm his email
             const url = `${req.protocol}://${req.headers.host}${process.env.apiurl}/confirm-email/${token}`
             ///// get the html file template
-            const __filename = fileURLToPath(import.meta.url);
-            const __dirname = dirname(__filename);
-            const htmlFilePath = join(__dirname, '../../views/sendConfirmEmailMessage.html');
-            const htmlFile = fs.readFileSync(htmlFilePath, 'utf-8');
-            const html = htmlFile.replace("${url}", url);
+            const htmlFilePath = path.resolve("views/sendConfirmEmailMessage.html");
+            const html = fs.readFileSync(htmlFilePath, 'utf-8').replace("{$link$}", url);
             const emailInputs = {
                 email,
                 sub: 'Confirm your Email',
@@ -68,7 +66,8 @@ const registerNewUser = async (req, res) => {
             return res.status(200).json({ message: "success" });
         }
     } catch (err) {
-        logger.info(`error: ${err}`)
+        console.log(err.message);
+        logger.error(err)
         return res.status(500).json({ error: "something went wrong, please try again later ):" })
     }
 }

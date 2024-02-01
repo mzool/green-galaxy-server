@@ -7,7 +7,12 @@ import forgetPasswordRouter from "./forgetPasswordRouter.js";
 import changePasswordRouter from "./changePasswordRouter.js";
 import getAllOrderRouter from "./getAllOrders.js";
 import cancellOrderRouter from "./deleteOrder.Router.js";
+import enableTowStepsLoginRouter from "./enableTowStepLogin.js";
+import checkForOtpTokenRouter from "./tow-steps-login/checkForUserToken.router.js";
+import getOTPFromUserRouter from "./tow-steps-login/getOtpFromUser.router.js";
+
 export {loginRouter, registerRouter, confirmEmailRouter, logoutRouter,
      contactUsRouter, forgetPasswordRouter, changePasswordRouter, getAllOrderRouter,
-     cancellOrderRouter
+     cancellOrderRouter, enableTowStepsLoginRouter, checkForOtpTokenRouter,
+     getOTPFromUserRouter
     }

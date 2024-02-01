@@ -5,7 +5,7 @@ async function cash(method, key, value, _t = 5) {
     try {
         if (method !== "set" && method !== "get" && method !== "del") {
             console.log("method error");
-            throw new Error("Invalid method. Use 'set' or 'get'.");
+            throw new Error("Invalid method");
         }
 
         if (!key) {

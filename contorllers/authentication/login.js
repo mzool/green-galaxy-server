@@ -3,6 +3,9 @@ import user from '../../model/users.js'
 import { generatePasetoToken } from "../../services/passeto.js";
 import logger from "../../services/winston_logger.js"
 import CartDb from '../../model/cart/Cart.js'
+import sendEmailWithOTP from "./tow-steps-login/sendEmailWithOTP.js";
+
+
 async function login(req, res) {
     try {
         const { email, password } = req.body;
@@ -10,7 +13,11 @@ async function login(req, res) {
         if (!theUser) {
             return res.status(401).json({ success: false, message: "wrong email or password" })
         } else {
+            /// tow steps login
+            const towStepsLogin = theUser.towStepsLogin;
+            /// this variable check if user enter a valid password
             let theUserPassword;
+            /// if user has temporary password the he initiate forget password process
             if (theUser.temporaryPassword) {
                 theUserPassword = bcrypt.compareSync(password, theUser.temporaryPassword);
                 theUser.temporaryPassword = null;
@@ -24,8 +31,22 @@ async function login(req, res) {
             }
             /// check if the password is correct
             if (theUserPassword) {
-                const token = await generatePasetoToken({ email, user_id: theUser.user_id }, 30 * 24);
-                const cart = await CartDb.findOne({ user: theUser._id })
+                //// tow steps log in here
+                if (towStepsLogin) {
+                    const sendOTPEmail = await sendEmailWithOTP(email);
+                    if (sendOTPEmail) {
+                        const token = await generatePasetoToken({ email, id: theUser.user_id }, 5, true);
+                        return res.status(200).json({
+                            success: true,
+                            towStepsLogin: true, message: "OTP sent to user",
+                            token
+                        })
+                    }
+                }
+                /// generate a token and get the cart for user
+                const token = await generatePasetoToken({ email, id: theUser.user_id }, 30 * 24);
+                const cart = await CartDb.findOne({ user: theUser._id });
+                /// send cookies for user 
                 res.cookie('user', token, {
                     maxAge: 30 * 24 * 60 * 60 * 1000, // Cookie expiration time in milliseconds
                     httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
@@ -40,7 +61,7 @@ async function login(req, res) {
                         sameSite: 'strict', // Protects against cross-site request forgery (CSRF) attacks
                     });
                 }
-
+                ////// response
                 return res.status(200).json({ success: true, message: "Logged in Successfully" });
 
             } else {

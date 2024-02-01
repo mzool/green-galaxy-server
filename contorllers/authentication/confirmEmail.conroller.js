@@ -10,14 +10,14 @@ const publicKeyPath = "publicKey.pem";
 async function confirmEmailFunc(req, res) {
     try {
         const { token } = req.params;
-        if(!token){
+        if (!token) {
             return res.status(401).json({ error: "token required" })
         }
         const publicKey = fs.readFileSync(publicKeyPath);
         // Verify the token 
         let decoded = await verifyPasetoToken(token, publicKey);
         // get the user
-        const theUser = await user.findOne({ email: decoded.payload.email, user_id: decoded.payload.user_id });
+        const theUser = await user.findOne({ email: decoded.payload.email, id: decoded.payload.user_id });
         if (!theUser) {
             return res.status(401).json({ error: "user email not registered, please go to registration page." })
         } else {

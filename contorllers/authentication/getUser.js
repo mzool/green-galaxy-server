@@ -1,7 +1,6 @@
 import logger from "../../services/winston_logger.js"
 import user from '../../model/users.js'
 import fs from "fs"
-import { fileURLToPath } from "url";
 import path from "path";
 import { verifyPasetoToken } from "../../services/passeto.js"
 async function getUser(req, res) {
@@ -17,12 +16,11 @@ async function getUser(req, res) {
             return res.status(401).json({ success: false, message: "UnAuthorized" })
         }
         /// get the public key file
-        let __dirname = fileURLToPath(import.meta.url);
-        let publicKeyFile = path.join(__dirname, "../../../publicKey.pem")
-        const publicKey = fs.readFileSync(publicKeyFile);
+        let publicKeyFilePath = path.resolve("publicKey.pem");
+        const publicKey = fs.readFileSync(publicKeyFilePath);
         /// verify the token
         let payload = await verifyPasetoToken(token, publicKey);
-        let theUser = await user.findOne({ email: payload.payload.email, user_id: payload.payload.user_id });
+        let theUser = await user.findOne({ email: payload.payload.email, user_id: payload.payload.id });
         return res.status(200).json({
             success: true,
             data: {
@@ -32,12 +30,14 @@ async function getUser(req, res) {
                 confirm_email: theUser.confirmEmail,
                 permesions: theUser.isAdmin,
                 phone: theUser.phone,
-                profileImage: theUser.profileImage
+                profileImage: theUser.profileImage,
+                towStepsLogin:theUser.towStepsLogin
             }
         })
     } catch (err) {
-        logger.info(`error:${err.message} `);
-        return res.status(500).json({ error: "server error, sorry." })
+        console.log(err.message);
+        logger.error(err);
+        return res.status(500).json({ success: false, error: "something went error, try again later" })
     }
 }
 

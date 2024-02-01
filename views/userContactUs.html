@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>One-Time Password (OTP) Confirmation</title>
+    <title>Contact Us</title>
     <style>
       body {
         font-family: "Arial", sans-serif;
@@ -32,6 +32,8 @@
       .content {
         padding: 20px;
         color: #333;
+        display: grid;
+        grid-gap: 10px;
       }
 
       .footer {
@@ -42,14 +44,29 @@
         border-radius: 0 0 8px 8px;
       }
 
-      .button {
-        display: inline-block;
+      h2 {
+        font-weight: bold;
+      }
+
+      p {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      button {
         background-color: #4caf50;
         color: #fff;
-        padding: 10px 20px;
-        text-decoration: none;
+        padding: 10px;
+        border: none;
         border-radius: 4px;
-        margin-top: 20px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -57,30 +74,19 @@
   <body>
     <div class="container">
       <div class="header">
-        <h2>One-Time Password (OTP) Confirmation</h2>
+        <h2>Message from User on Green Galaxy </h2>
       </div>
       <div class="content">
-        <p>
-          You are receiving this email because a request was made for a one-time
-          code that can be used for authentication.
-        </p>
-
-        <h3>Your OTP: <strong>{$OTP$}</strong></h3>
-
-        <p>
-          This OTP is valid for a limited time. Do not share it with others. If
-          you did not request this OTP, please ignore this email.
-        </p>
-
-        <p>
-          If you have any questions or need assistance, feel free to contact our
-          support team.
-        </p>
-
-        <p>Click the button below to contact us if there is an issue</p>
-        <a href="https://green-galaxy.net/contact-us" class="button">contack us</a>
+        <h2 for="username">Username:</h2>
+        <p>{$name}</p>
+        <h2 for="email">Email:</h2>
+        <p>{$email}</p>
+        <h2 for="phone">Phone:</h2>
+        <p>{$phone}</p>
+        <h2 for="message">Message:</h2>
+        <textarea>{$msg}</textarea>
       </div>
-      <div class="footer">&copy; 2024 Green Galaxy. All rights reserved.</div>
+      <div class="footer">&copy; 2024 Your Company. All rights reserved.</div>
     </div>
   </body>
 </html>
