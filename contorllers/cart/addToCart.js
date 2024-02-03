@@ -28,6 +28,10 @@ async function AddToCart(req, res) {
 
         //// if there is a past cart then add the new items to it
         const pastCart = await CartDB.findOne({ cart_id });
+        if (cart_id && !pastCart) {
+            res.clearCookie("cart");
+            return res.status(404).json({ success: false, message: "cart not found" })
+        }
         const x = quantity;
         let targetId;
         if (pastCart) {
@@ -95,7 +99,7 @@ async function AddToCart(req, res) {
                     quantity,
 
                 },
-                user: theUser ? theUser._id : ""
+                user: theUser ? theUser._id : null
             }).save()
             res.cookie('cart', cart_id, {
                 maxAge: 365 * 24 * 60 * 60 * 1000, // Cookie expiration time in milliseconds
