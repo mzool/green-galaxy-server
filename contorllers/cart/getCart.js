@@ -16,29 +16,32 @@ async function getCart(req, res) {
                     model: 'product',
                 })
                 .lean();
+            if (!theCart) {
+                return res.status(404).json({ success: false, message: "cart not found" })
+            }
             /// calculate the total price
             let totalPrice = 0;
             for (const item of theCart.items) {
                 totalPrice += ((item.product.productPrice * ((100 - item.product.productDiscount) / 100)) * item.quantity)
             }
             //// specify what product data to send to user
-            let allCartItems=[];
-            for (const item of theCart.items){
+            let allCartItems = [];
+            for (const item of theCart.items) {
                 const obj = {
-                    quantity:item.quantity,
-                    color:item.color,
-                    size:item.size,
-                    otherVarients:item.otherVarients,
-                    product:{
-                        discount:item.product.productDiscount,
-                        stock:item.product.productStock,
-                        name:item.product.productName,
-                        brand:item.product.productBrand,
-                        id:item.product.productId,
-                        price:item.product.productPrice,
-                        images:item.product.productImgs,
+                    quantity: item.quantity,
+                    color: item.color,
+                    size: item.size,
+                    otherVarients: item.otherVarients,
+                    product: {
+                        discount: item.product.productDiscount,
+                        stock: item.product.productStock,
+                        name: item.product.productName,
+                        brand: item.product.productBrand,
+                        id: item.product.productId,
+                        price: item.product.productPrice,
+                        images: item.product.productImgs,
                     },
-                    _id:item._id
+                    _id: item._id
                 }
                 allCartItems.push(obj)
             }

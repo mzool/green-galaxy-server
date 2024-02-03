@@ -10,9 +10,7 @@ async function getUser(req, res) {
         const token = cookies["user"];
         //// if no token
         if (!token) {
-            for (const cookieName in cookies) {
-                res.clearCookie(cookieName);
-            }
+            res.clearCookie("user");
             return res.status(401).json({ success: false, message: "UnAuthorized" })
         }
         /// get the public key file
@@ -31,7 +29,7 @@ async function getUser(req, res) {
                 permesions: theUser.isAdmin,
                 phone: theUser.phone,
                 profileImage: theUser.profileImage,
-                towStepsLogin:theUser.towStepsLogin
+                towStepsLogin: theUser.towStepsLogin
             }
         })
     } catch (err) {
