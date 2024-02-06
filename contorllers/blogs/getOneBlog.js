@@ -2,6 +2,7 @@ import logger from "../../services/winston_logger.js";
 import Blog from "../../model/blogs/blogs.js";
 async function getOneBlog(req, res) {
     try {
+        console.log(req.headers);
         const { blog_id } = req.headers;
         if (!blog_id) {
             return res.status(404).json({ error: "Require blog ID" })
