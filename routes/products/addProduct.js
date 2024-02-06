@@ -4,7 +4,7 @@ import _upload from "../../middlewares/files upload/upload.js"
 import validateRequest from "../../middlewares/validation/validationFunction.js"
 import addProductSchema from "../../middlewares/validation/products/addProductSchema.js"
 import isAdmin from "../../middlewares/admins/isAdmin.js"
-import resizeProductImage from "../../middlewares/imagesController/productsImages.js"
+//import resizeProductImage from "../../middlewares/imagesController/productsImages.js"
 ///
 const addProductRouter = express.Router();
 

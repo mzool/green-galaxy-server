@@ -13,30 +13,24 @@ export const helmetOptions = {
 
 
 export const directives = {
-    defaultSrc: ["'self'"], // Allow resources to be loaded from the same origin by default
+    defaultSrc: [
+        "'self'",
+    ], // Allow resources to be loaded from the same origin by default
 
     // Define trusted sources for scripts
     scriptSrc: [
         "'self'",
-        "'unsafe-inline'", // Avoid if possible, this is for inline event handlers and scripts
-        "'unsafe-eval'",   // Avoid if possible, this is for dynamic code execution like eval(), delete to turn off
-        //'https://ajax.googleapis.com', // Example: Include trusted CDNs
-
     ],
 
     // Define trusted sources for styles (including fonts)
     styleSrc: [
         "'self'",
-       // 'https://fonts.googleapis.com', // Example: Allow Google Fonts
-     
+        // 'https://fonts.googleapis.com', // Example: Allow Google Fonts
+
     ],
 
     // Define trusted sources for images (including product images)
-    imgSrc: [
-        "'self'",
-        'https://cdn.example.com', // Example: Allow a CDN for images
-        // Add other trusted image sources here
-    ],
+    imgSrc: ["'self'",],
 
     // Define trusted sources for fonts
     fontSrc: [
@@ -58,14 +52,5 @@ export const directives = {
     baseUri: ["'none'"],
 
     // Set up reporting URI for CSP violations
-    // Reports will be sent to this endpoint for monitoring
-    // Replace 'https://report.example.com/csp-report' with your actual reporting endpoint
-   // reportUri: 'https://report.example.com/csp-report',
+    reportUri: 'https://api.green-galaxy.net/api/csp-report',
 };
-// Use Helmet with Content Security Policy (CSP) configuration
-// app.use(
-//     helmet.contentSecurityPolicy({
-        
-//     })
-// );
-
