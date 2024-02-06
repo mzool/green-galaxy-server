@@ -140,12 +140,9 @@ import { homeStyleRouter } from "./routes/client/allClientRouters.js"
 ////// home style
 app.use(mainApi, homeStyleRouter)
 ///////////////////////////////////////////////////////////// graphql
-import { graphqlHTTP } from "express-graphql"
+import { createHandler } from 'graphql-http/lib/use/express';
 import graphRootSchema from "./graphqlSchemas/rootSchema.js"
-app.use(process.env.graphQLAPI, graphqlHTTP({
-    schema: graphRootSchema,
-    graphiql: process.env.environment == "dev" ? true : false
-}))
+app.use(process.env.graphQLAPI, createHandler({schema:graphRootSchema}))
 //////////////////////////////////////// DB and start server 
 const url = process.env.url;
 const PORT = (process.env.port) || 6000
