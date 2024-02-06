@@ -9,6 +9,7 @@ async function editProduct(req, res) {
         const newData = req.body;
         const images = req.files;
         let imagesURLs;
+        console.log(req.body);
         if (images?.length > 0) {
             imagesURLs = await uploadPhoto(images, `Green_Galaxy/products/${newData.productId}}`);
 

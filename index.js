@@ -19,7 +19,7 @@ const server = createServer(app);
 import { helmetOptions, directives } from "./services/helmet.js"
 import helmet from "helmet";
 app.use(helmet(helmetOptions));
-app.use(helmet.contentSecurityPolicy(directives));
+app.use(process.env.apiurl, helmet.contentSecurityPolicy(directives));
 /////////////////////////////////////////////// compress response
 app.use(compression(shouldCompress))
 ///////////////////////////////////////////////////////////// use cors
@@ -139,6 +139,13 @@ app.use(mainApi, locationRouter)
 import { homeStyleRouter } from "./routes/client/allClientRouters.js"
 ////// home style
 app.use(mainApi, homeStyleRouter)
+///////////////////////////////////////////////////////////// graphql
+import { graphqlHTTP } from "express-graphql"
+import graphRootSchema from "./graphqlSchemas/rootSchema.js"
+app.use(process.env.graphQLAPI, graphqlHTTP({
+    schema: graphRootSchema,
+    graphiql: process.env.environment == "dev" ? true : false
+}))
 //////////////////////////////////////// DB and start server 
 const url = process.env.url;
 const PORT = (process.env.port) || 6000

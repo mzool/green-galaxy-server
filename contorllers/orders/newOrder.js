@@ -49,7 +49,7 @@ async function newOrder(req, res) {
         }).save();
         /// update products stock
         /// clear cart cookie
-        res.clearCookie(`cart`);
+        res.clearCookie("cart");
         /// delete cart from DB
         await CartDb.deleteOne({ cart_id: cartId });
         /// send email to user
