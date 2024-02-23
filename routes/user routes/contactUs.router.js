@@ -1,5 +1,5 @@
 import express from "express";
-import contactUs from "../../contorllers/contactus/contactus.js";
+import contactUs from "../../controllers/contactus/contactus.js";
 import contactUsSchema from "../../middlewares/validation/user/contactusSchema.js";
 import validateRequest from "../../middlewares/validation/validationFunction.js";
 

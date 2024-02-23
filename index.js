@@ -6,12 +6,15 @@ import compression from "compression"
 import shouldCompress from "./services/compress.js"
 import morgan from "morgan"
 import { createServer } from "http"
-import chatWithUs from "./contorllers/chat/chatApp.js"
-import passport from "passport"
 import addAuthHeaderShellOne from "./middlewares/mainMiddlewares/addShellOne.js"
 import authorizeReq from "./middlewares/auth/API_authorization.js"
 /// creating the server 
 const app = express();
+/// connect to DB
+const url = process.env.url;
+const PORT = (process.env.port) || 6000
+import DB from "./model/db_functions.js"
+DB(url);
 /// http server
 const server = createServer(app);
 /// security
@@ -25,8 +28,6 @@ app.use(compression(shouldCompress))
 ///////////////////////////////////////////////////////////// use cors
 import { corsOptions } from "./services/cors.js";
 app.use(cors(corsOptions));
-//// passport 
-//app.use(passport.initialize());
 //////////////////////////////////////////////////// just 200 requests in 10 miniutes
 app.use(limiter)
 ////////////////////////////////////////////////// body parser
@@ -41,6 +42,9 @@ app.use(morgan(customLogFormat));
 ///////////////////////////////////////////////////// environment variables 
 dotenv.config();
 /////////////////////////////////////////// main prox middlewares
+/// track
+import trackLocation from "./middlewares/mainMiddlewares/traffic.js"
+app.use(trackLocation)
 app.use(addAuthHeaderShellOne)
 app.use(authorizeReq)
 /// routes
@@ -85,7 +89,12 @@ app.use(mainApi, filterRouter)
 app.use(mainApi, excelRouter)
 
 ////////////////////////////////////////////////////////////////////////////////// admin 
-import { employeesRouter, updateOrderRouter, getAllOrdersRouter, addProductFileRouter, contactUsAdminRouter, editStyleRouter, getOtpRouter, checkAdminCookieRouter, getAllProductsAdminRouter, editProductRouter, sendOtpROuter, deleteProductRouter, imageGeneratorRouter } from "./routes/admin/allAdminRoutes.js"
+import {
+    marketingRoutesRouter, adminReturnRouter, employeesRouter, updateOrderRouter,
+    getAllOrdersRouter, addProductFileRouter, contactUsAdminRouter, editStyleRouter, getOtpRouter,
+    checkAdminCookieRouter, getAllProductsAdminRouter, editProductRouter, sendOtpROuter, deleteProductRouter,
+    imageGeneratorRouter
+} from "./routes/admin/allAdminRoutes.js"
 app.use(mainApi, getOtpRouter)
 app.use(mainApi, checkAdminCookieRouter)
 app.use(mainApi, getAllProductsAdminRouter)
@@ -99,6 +108,8 @@ app.use(mainApi, addProductFileRouter)
 app.use(mainApi, getAllOrdersRouter)
 app.use(mainApi, updateOrderRouter)
 app.use(mainApi, employeesRouter)
+app.use(mainApi, adminReturnRouter)
+app.use(mainApi, marketingRoutesRouter)
 
 /////////////////////////////////////////////////////////// blogs admin
 import blogRouter from "./routes/admin/blogs/allBlogControllers.js"
@@ -128,10 +139,6 @@ app.use(mainApi, searchRouter);
 import trackOrderRouter from "./routes/trackorder/trackOrderRouter.js"
 app.use(mainApi, trackOrderRouter);
 
-/////////////////////////////////////////////////////////// get user location
-import locationRouter from "./routes/getLocationRouter/getLocationRoute.js"
-app.use(mainApi, locationRouter)
-
 /////////////////////////////////////////////////////// chat with us
 //chatWithUs(server);
 
@@ -142,11 +149,12 @@ app.use(mainApi, homeStyleRouter)
 ///////////////////////////////////////////////////////////// graphql
 import { createHandler } from 'graphql-http/lib/use/express';
 import graphRootSchema from "./graphqlSchemas/rootSchema.js"
-app.use(process.env.graphQLAPI, createHandler({schema:graphRootSchema}))
-//////////////////////////////////////// DB and start server 
-const url = process.env.url;
-const PORT = (process.env.port) || 6000
-import DB from "./model/db_functions.js"
+app.use(process.env.graphQLAPI, createHandler({ schema: graphRootSchema }))
+///////////////////////////////////////////////// google services
+
+
+//////////////////////////////////////// start server 
+
 /// listining to port 3000
 server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
@@ -160,5 +168,3 @@ server.on('error', (err) => {
     }
     process.exit(1); // Exit the process with an error code
 });
-/// connect to DB
-DB(url);

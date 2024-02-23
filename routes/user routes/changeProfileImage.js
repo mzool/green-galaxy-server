@@ -1,5 +1,5 @@
 import express from "express"
-import updateProfileImage from "../../contorllers/user/updateProfileImage.js"
+import updateProfileImage from "../../controllers/user/updateProfileImage.js"
 import upload from "../../middlewares/files upload/upload.js"
 import authUser from "../../middlewares/auth/checkUser.js"
 

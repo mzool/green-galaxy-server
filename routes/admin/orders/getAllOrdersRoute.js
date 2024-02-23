@@ -1,6 +1,6 @@
 import express from "express"
 import isAdmin from "../../../middlewares/admins/isAdmin.js"
-import getAllOrders from "../../../contorllers/admin/orders/getAllOrders.js"
+import getAllOrders from "../../../controllers/admin/orders/getAllOrders.js"
 
 const getAllOrdersRouter = express.Router()
 

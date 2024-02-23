@@ -1,4 +1,4 @@
-import getOneProduct from "../../contorllers/products/getOneProduct.js"
+import getOneProduct from "../../controllers/products/getOneProduct.js"
 import express from "express"
 
 const onePrRouter = express.Router();

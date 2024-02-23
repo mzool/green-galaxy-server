@@ -1,5 +1,5 @@
 import express from 'express';
-import editProduct from '../../../contorllers/admin/products/editProduct.js';
+import editProduct from '../../../controllers/admin/products/editProduct.js';
 import isAdmin from "../../../middlewares/admins/isAdmin.js";
 import upload from "../../../middlewares/files upload/upload.js";
 

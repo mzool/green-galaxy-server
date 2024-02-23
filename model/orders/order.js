@@ -73,7 +73,7 @@ const order_schema = new mongoose.Schema({
     },
     detailedStatus: {
         type: String
-    }
+    },
 
 }, { timestamps: true });
 const OrdersDB = mongoose.model("Order", order_schema);

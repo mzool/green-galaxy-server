@@ -1,6 +1,6 @@
 import express from "express"
 import validateRequest from '../../middlewares/validation/validationFunction.js'
-import AddToCart from "../../contorllers/cart/addToCart.js";
+import AddToCart from "../../controllers/cart/addToCart.js";
 import AddToCartSchema from "../../middlewares/validation/cart/cartSchema.js";
 
 const addToCartRouter = express.Router();

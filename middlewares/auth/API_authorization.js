@@ -7,7 +7,7 @@ async function authorizeReq(req, res, next) {
     try {
         const authorization_token = req.headers.shellOne;
         if (!authorization_token) {
-            return res.status(401).json({ success: false, stage:1, message: "Access Denied" })
+            return res.status(401).json({ success: false, stage:1, message: "Permession required" })
         } else {
             const token = authorization_token.split("GreenBearer ")[1];
             const publicKey = fs.readFileSync("publicKey.pem");

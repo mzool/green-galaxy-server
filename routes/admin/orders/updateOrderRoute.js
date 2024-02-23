@@ -1,10 +1,9 @@
 import express from "express"
 import authorizeReq from "../../../middlewares/auth/API_authorization.js"
 import isAdmin from "../../../middlewares/admins/isAdmin.js"
-import deleteItemFromOrder from "../../../contorllers/admin/orders/deleteItemFromOrder.js"
-import updateOrderVarient from "../../../contorllers/admin/orders/edietOrderVarient.js"
-import editOrderStatus from "../../../contorllers/admin/orders/editOrderStatus.js"
-import generateOrderReciepte from "../../../contorllers/admin/orders/generateOrderReciept.js"
+import deleteItemFromOrder from "../../../controllers/admin/orders/deleteItemFromOrder.js"
+import updateOrderVarient from "../../../controllers/admin/orders/edietOrderVarient.js"
+import editOrderStatus from "../../../controllers/admin/orders/editOrderStatus.js"
 /// router
 const updateOrderRouter = express.Router();
 

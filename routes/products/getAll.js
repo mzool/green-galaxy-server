@@ -1,6 +1,5 @@
 import express from "express"
-import getAllProducts from "../../contorllers/products/getAllProducts.js";
-import traffic from "../../contorllers/traffic/getTraffic.js";
+import getAllProducts from "../../controllers/products/getAllProducts.js";
 
 const allProducts = express.Router();
 

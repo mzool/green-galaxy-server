@@ -1,6 +1,6 @@
 import express from "express"
 import authUser from "../../middlewares/auth/checkUser.js"
-import enableTowStepsLogin from "../../contorllers/user/enableTowStepsLogin.js";
+import enableTowStepsLogin from "../../controllers/user/enableTowStepsLogin.js";
 import {towStepsLoginLimiter} from "../../services/limitRequests.js"
 
 

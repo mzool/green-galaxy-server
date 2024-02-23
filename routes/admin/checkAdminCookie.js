@@ -1,5 +1,5 @@
 import express from 'express'
-import checkAdminCookie from '../../contorllers/admin/checkAdminCookie.js'
+import checkAdminCookie from '../../controllers/admin/checkAdminCookie.js'
 import authUser from "../../middlewares/auth/checkUser.js"
 
 const checkAdminCookieRouter = express.Router()
