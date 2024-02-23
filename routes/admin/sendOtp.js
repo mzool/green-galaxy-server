@@ -1,5 +1,5 @@
 import express from "express"
-import sendOtp from "../../contorllers/admin/sendOtp.js"
+import sendOtp from "../../controllers/admin/sendOtp.js"
 import { OTPLimiter } from "../../services/limitRequests.js"
 import authUser from "../../middlewares/auth/checkUser.js"
 

@@ -19,15 +19,15 @@ const uploadPhoto = async (image, path) => {
 
             fs.unlink(image[i].path, (err) => {
                 if (err) {
-                    console.log(err);
-                    logger.error(`error: ${err}`)
+                    console.log(err.message);
+                    logger.error(err)
                     return
                 }
             })
         }
         return urls
     } catch (err) {
-        logger.error(`error: ${err}`)
+        logger.error(err)
         return
     }
 };

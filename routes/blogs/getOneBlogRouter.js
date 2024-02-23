@@ -1,5 +1,5 @@
 import express from "express"
-import getOneBlog from "../../contorllers/blogs/getOneBlog.js";
+import getOneBlog from "../../controllers/blogs/getOneBlog.js";
 
 const getOneBlogRouter = express.Router();
 

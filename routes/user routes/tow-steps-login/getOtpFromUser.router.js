@@ -1,7 +1,7 @@
 import express from "express"
-import getOTPFromUser from "../../../contorllers/authentication/tow-steps-login/getOTPFromUser.js";
+import getOTPFromUser from "../../../controllers/authentication/tow-steps-login/getOTPFromUser.js";
 import OTPLimiter from "../../../services/limitRequests.js"
-import checkForOtpToken from "../../../contorllers/authentication/tow-steps-login/checkForOTPFormToken.js";
+import checkForOtpToken from "../../../controllers/authentication/tow-steps-login/checkForOTPFormToken.js";
 
 const getOTPFromUserRouter = express.Router();
 

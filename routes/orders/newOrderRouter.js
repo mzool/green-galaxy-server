@@ -1,5 +1,5 @@
 import express from "express";
-import newOrder from "../../contorllers/orders/newOrder.js";
+import newOrder from "../../controllers/orders/newOrder.js";
 import validateRequest from "../../middlewares/validation/validationFunction.js";
 import newOrderShema from "../../middlewares/validation/orders/newOrderShema.js";
 

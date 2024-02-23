@@ -1,6 +1,6 @@
 import express from 'express'
 import isAdmin from "../../../middlewares/admins/isAdmin.js"
-import getContactMsgs from '../../../contorllers/admin/contactUs/getContactUsMsgs.js'
+import getContactMsgs from '../../../controllers/admin/contactUs/getContactUsMsgs.js'
 const contactUsAdminRouter = express.Router()
 
 contactUsAdminRouter.get("/get-admin-contact-msgs", isAdmin, getContactMsgs)

@@ -11,9 +11,12 @@ import addProductFileRouter from "./products/addProductFromFile.js";
 import getAllOrdersRouter from "./orders/getAllOrdersRoute.js";
 import updateOrderRouter from "./orders/updateOrderRoute.js";
 import employeesRouter from "./employees/allEmployeesRoutes.js";
+import adminReturnRouter from "./returns/mainReturnRouter.js";
+import marketingRoutesRouter from "./marketing/marketingRoutes.js";
+
 export {
     getAllProductsAdminRouter, checkAdminCookieRouter, getOtpRouter,
     editProductRouter, sendOtpROuter, deleteProductRouter, imageGeneratorRouter,
     editStyleRouter, contactUsAdminRouter, addProductFileRouter, getAllOrdersRouter,
-    updateOrderRouter, employeesRouter
+    updateOrderRouter, employeesRouter, adminReturnRouter, marketingRoutesRouter
 }

@@ -1,5 +1,5 @@
 import express from "express"
-import forgetPassword from "../../contorllers/authentication/forgetPassword.js";
+import forgetPassword from "../../controllers/authentication/forgetPassword.js";
 import { forgetPasswordLimiter } from "../../services/limitRequests.js";
 
 const forgetPasswordRouter = express.Router();

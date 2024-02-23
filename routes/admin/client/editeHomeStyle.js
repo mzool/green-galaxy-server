@@ -1,5 +1,5 @@
 import express from "express"
-import editeHomeStyle from "../../../contorllers/admin/client/editeHomeStyle.js"
+import editeHomeStyle from "../../../controllers/admin/client/editeHomeStyle.js"
 import isAdmin from "../../../middlewares/auth/checkUserPermesions.js"
 
 

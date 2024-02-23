@@ -1,5 +1,5 @@
 import express from "express"
-import checkForOtpToken from "../../../contorllers/authentication/tow-steps-login/checkForOTPFormToken.js";
+import checkForOtpToken from "../../../controllers/authentication/tow-steps-login/checkForOTPFormToken.js";
 
 
 const checkForOtpTokenRouter = express.Router();

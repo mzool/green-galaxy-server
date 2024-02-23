@@ -1,5 +1,5 @@
 import express from "express"
-import addProduct from "../../contorllers/products/addProduct.js"
+import addProduct from "../../controllers/products/addProduct.js"
 import _upload from "../../middlewares/files upload/upload.js"
 import validateRequest from "../../middlewares/validation/validationFunction.js"
 import addProductSchema from "../../middlewares/validation/products/addProductSchema.js"

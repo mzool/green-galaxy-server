@@ -1,5 +1,5 @@
 import express from "express"
-import veriyOTP from "../../contorllers/admin/getOtp.js"
+import veriyOTP from "../../controllers/admin/getOtp.js"
 import validateRequest from "../../middlewares/validation/validationFunction.js"
 import getOtpSchema from "../../middlewares/validation/admin/getOtp.js"
 import {OTPLimiter} from "../../services/limitRequests.js"

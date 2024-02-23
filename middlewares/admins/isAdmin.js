@@ -23,7 +23,7 @@ async function isAdmin(req, res, next) {
         }
         let _per = theUser.isAdmin;
         if (_per !== "admin" && _per !== "superAdmin") {
-            return res.status(401).json({ error: "Unauthorized !" });
+            return res.status(401).json({ error: "Unauthorized!" });
         }
         next()
     } catch (err) {

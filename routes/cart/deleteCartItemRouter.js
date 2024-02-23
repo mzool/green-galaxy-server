@@ -1,5 +1,5 @@
 import express from "express"
-import deleteCartItme from "../../contorllers/cart/deleteItem.js"
+import deleteCartItme from "../../controllers/cart/deleteItem.js"
 
 const DeleteCartItemRouter = express.Router();
 

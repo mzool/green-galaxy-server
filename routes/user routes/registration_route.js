@@ -1,8 +1,8 @@
 import express from "express"
 import validateRequest from "../../middlewares/validation/validationFunction.js"
 import registerSchema from "../../middlewares/validation/registerValidation.js"
-import registerNewUser from "../../contorllers/authentication/register.js"
-import googleRegister from "../../contorllers/authentication/googleRegister.js"
+import registerNewUser from "../../controllers/authentication/register.js"
+import googleRegister from "../../controllers/authentication/googleRegister.js"
 import passport from "passport"
 import dotenv from "dotenv"
 dotenv.config()

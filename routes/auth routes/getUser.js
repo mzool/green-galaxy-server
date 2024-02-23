@@ -1,5 +1,5 @@
 import express from "express";
-import getUser from "../../contorllers/authentication/getUser.js";
+import getUser from "../../controllers/authentication/getUser.js";
 
 const getUserRouter = express.Router();
 

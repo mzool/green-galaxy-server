@@ -1,5 +1,5 @@
 import express from "express";
-import reSendConfirmationEmail from "../../contorllers/authentication/resend_confirmationEmail.js";
+import reSendConfirmationEmail from "../../controllers/authentication/resend_confirmationEmail.js";
 import { resendEmailConfirmationLimiter } from "../../services/limitRequests.js";
 import authUser from "../../middlewares/auth/checkUser.js"
 

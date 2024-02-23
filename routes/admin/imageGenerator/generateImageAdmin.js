@@ -1,5 +1,5 @@
 import express from "express"
-import createImage from "../../../contorllers/admin/imageGenerator/generateImage.js"
+import createImage from "../../../controllers/admin/imageGenerator/generateImage.js"
 
 
 const imageGeneratorRouter = express.Router();

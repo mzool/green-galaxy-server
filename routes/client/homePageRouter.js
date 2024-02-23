@@ -1,5 +1,5 @@
 import express from "express"
-import getHomeStyle from "../../contorllers/client/getHomePageStyle.js"
+import getHomeStyle from "../../controllers/client/getHomePageStyle.js"
 
 const homeStyleRouter = express.Router();
 

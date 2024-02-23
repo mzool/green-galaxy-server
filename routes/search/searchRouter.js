@@ -1,5 +1,5 @@
 import express from "express"
-import search from "../../contorllers/search/search.js"
+import search from "../../controllers/search/search.js"
 import searchSchema from "../../middlewares/search/searchSchem.js";
 import validateFunc from "../../middlewares/validation/validationFunction.js"
 

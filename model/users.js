@@ -49,7 +49,9 @@ const userSchema = new mongoose.Schema({
     towStepsLogin: {
         type: Boolean,
         default: false
-    }
+    },
+    userCountry: String
+
 }, { timestamps: true });
 const user = mongoose.model("user", userSchema)
 export default user
